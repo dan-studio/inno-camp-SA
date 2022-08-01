@@ -19,6 +19,7 @@ client = MongoClient(DB, tlsCAFile=ca)
 db = client.incfwdb
 
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -46,11 +47,11 @@ def card_get():
     all_card = list(db.cardlist.find({},{'_id':False}))
     return jsonify({'all_card':all_card})
 
-@app.route("/opencard", methods=["GET"])
+@app.route("/opencard", methods=["POST"])
 def card_open():
     num_receive = request.form['num_give']
-    user = db.users.find_one({'num':num_receive},{'_id':False})
-    return jsonify({'open_card':user})
+    user = db.cardlist.find_one({'num':int(num_receive)},{'_id':False})
+    return jsonify({'select_card':user})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

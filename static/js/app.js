@@ -16,12 +16,14 @@ function show_card() {
                 let title = cardlist[i]['title']
                 let desc = cardlist[i]['desc']
                 let url = cardlist[i]['url']
+                let image =cardlist[i]['image']
                 let temp_html = `<div class="col">
                                             <div class="card h-100">
-                                                <img src="" class="card-img-top in_card_image" alt="...">
+                                                <img src="${image}" class="card-img-top in_card_image" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title"><a href="${url}">${title}</a></h5>
-                                                    <p class="card-text" id="show" onclick="openpop(${num})">${desc}</p>
+                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openpop(${num})" id="show" >${desc}</p>
+                                                    <button  > 자세히알아보기</button>
                                                 </div>
                                             </div>
                                         </div>`
@@ -31,33 +33,28 @@ function show_card() {
         }
     })
 }
-document.querySelector("#show").addEventListener("click", openpop(num));
-document.querySelector("#close").addEventListener("click", close);
 function openpop(num) {
-  document.querySelector(".background").className = "background show";
-
+    $('#modal').empty()
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/opencard",
         data: {num_give:num},
         success: function (response) {
-            let cardlist = response['open_card']
+            let cardlist = response['select_card']
+            let num = cardlist['num']
             let title = cardlist['title']
             let desc = cardlist['desc']
             let url = cardlist['url']
-            let temp_html = ` <div class="modal-dialog modal-fullscreen-sm-down">
-                                  ...
+            let image =cardlist['image']
+            let temp_html = `<div>
+                                <h1>${title}</h1>
+                                <h2>${desc}</h2>
                                 </div>`
 
-            $('#popup_w').append(temp_html)
+            $('#staticBackdropLabel').text(title)
+            $('#modal').append(temp_html)
         }
     })
 
 
 }
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
-
-myModal.addEventListener('shown.bs.modal', function () {
-  myInput.focus()
-})
