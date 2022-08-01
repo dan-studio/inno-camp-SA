@@ -20,9 +20,31 @@
 
     <title>찾아봐tHub</title>
     <link rel="stylesheet" href="../static/css/style.css">
-    <script defer src="../static/js/app.js"></script>
+    <script src="../static/js/app.js"></script>
 </head>
 <body>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="main_title">
     <h1>찾아봐tHub</h1>
 </div>
@@ -33,13 +55,13 @@
     </form>
 </div>
 <div>
-    <div class="row row-cols-1 row-cols-md-4 g-4 card_box" id="card_list">
+    <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
         <div class="col">
             <div class="card h-100">
                 <img src="../static/fav2.png" class="card-img-top in_card_image" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">제목</h5>
-                    <p class="card-text">내용--------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                    <p class="card-text" data-bs-toggle="modal" data-bs-target="#staticBackdrop">내용--------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
                 </div>
             </div>
         </div>
@@ -48,7 +70,8 @@
                 <img src="../static/fav2.png" class="card-img-top in_card_image" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">제목</h5>
-                    <p class="card-text">내용aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                    <p class="card-text">
+                        내용aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
                 </div>
             </div>
         </div>
@@ -111,7 +134,8 @@
         </ul>
     </nav>
 </div>
+<div class="modal-dialog modal-fullscreen-sm-down">
 
-
+</div>
 </body>
 </html>

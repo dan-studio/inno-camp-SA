@@ -1,6 +1,11 @@
 * {
     font-family: 'Gowun Dodum', sans-serif;
 }
+a {
+    text-decoration: none;
+    color: black;
+}
+
 
 .main_title {
     width: 100%;
@@ -65,7 +70,11 @@
     height: 35%;
     margin: 10px auto 0 auto;
 }
+.card-title{
+    font-size: x-large;
+}
 .col {
+    font-size:medium;
     display: block;
     max-height: 400px;
     height: 50%;
