@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+import json
+from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import certifi
 from dotenv import load_dotenv
@@ -21,5 +22,23 @@ db = client.incfwdb
 def home():
     return render_template('index.html')
     
+
+@app.route('/signup', methods=["POST"])
+def signup():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+    
+    account = list(db.account.find({}, {'_id': False}))
+    count = len(account) + 1
+
+    doc = {
+      'index': count,
+      'id': id_receive,
+      'password': pw_receive
+    }
+    db.account.insert_one(doc)
+
+    return jsonify({'msg': '회원가입이 완료되었습니다!'})
+
 if __name__ == '__main__':
   app.run('0.0.0.0', PORT, debug=True)
