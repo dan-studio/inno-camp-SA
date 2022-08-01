@@ -1,3 +1,57 @@
-*{
-  margin: 0
-}
+  * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .main_title {
+            width: 100%;
+            height: 200px;
+            background-color: cadetblue;
+            background-position: center 30%;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main_title > h1 {
+            font-size: 60px;
+        }
+
+        .search_box{
+            max-width: 1000px;
+            width: 50%;
+            margin: 20px auto 20px auto;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+        }
+        .search_bar{
+            max-width: 1000px;
+            width: 80%;
+            border: 1px solid cadetblue;
+            margin-right: 0;
+        }
+        .search_btn{
+            max-width: 100px;
+            width: 20%;
+             border: 1px solid cadetblue;
+            background-color: transparent;
+            margin-left: 0;
+        }
+
+        .pagination{
+            max-width: 700px;
+            width: 40%;
+            margin: 20px auto 20px auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .card_box{
+            max-width: 1600px;
+            width: 80%;
+            margin: auto;
+        }
