@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>찾아봐tHub</title>
+		<link rel="stylesheet" href="../static/css/main.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Myeongjo:wght@800&family=Poor+Story&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+		<script src="../static/js/search.js"></script>
+		<script>
+			function search() {
+				$.ajax({
+					type: "POST",
+					url: "/jungjin",
+					data: { title_give: "자바스크립트 꿀팁" },
+					success: function (response) {
+						console.log(response);
+					},
+				});
+			}
+		</script>
+	</head>
+
+	<body class="body">
+		<form>
+			<input type="text" placeholder="제목을 입력해주세요." />
+			<button oncanplay="search()">검색</button>
+		</form>
+	</body>
+</html>

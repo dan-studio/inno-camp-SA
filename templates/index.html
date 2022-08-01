@@ -1,19 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="/static/css/style.css">
-  <title>찾아봐tHub</title>
-</head>
-<body>
-  <div>
-    <input type="text" name="" id="id">
-    <input type="password" name="" id="pw">
-    <button onclick="signup()" type="button">회원가입</button>
-  </div>
-<script src="/static/js/app.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		dㅁ
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="/static/css/style.css" />
+		<title>찾아봐tHub</title>
+		<script>
+			$(document).ready(function () {
+				show_order();
+			});
+			function show_order(target) {
+				let word = target.value;
+				let title = $.ajax({
+					type: "GET",
+					url: "/jungjin",
+					data: {},
+					success: function (response) {
+						alert(response["msg"]);
+					},
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			<input type="text" name="" id="id" />
+			<input type="password" name="" id="pw" />
+			<button onclick="signup()" type="button">회원가입</button>
+		</div>
+		<form>
+			<input type="text" placeholder="제목을 입력해주세요." />
+			<button onclick="search()">검색</button>
+		</form>
+
+		<script src="/static/js/app.js"></script>
+	</body>
 </html>
