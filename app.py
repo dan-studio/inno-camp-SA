@@ -99,7 +99,6 @@ def api_signin():
 @app.route('/api/user', methods=['GET'])
 def api_valid():
   token_receive = request.cookies.get('mytoken')
-
   try:
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     print(payload)
