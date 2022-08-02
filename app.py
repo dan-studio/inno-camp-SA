@@ -37,7 +37,6 @@ def home():
   try:
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.account.find_one({'id': payload['id']})
-    loggedin = (user_info == payload['id'])
     return render_template('index.html', username=user_info['username'], token_receive=token_receive)
   except jwt.ExpiredSignatureError:
     return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
@@ -123,14 +122,30 @@ def checkid():
 
 @app.route("/blog", methods=["GET"])
 def blog():
+  token_receive = request.cookies.get('mytoken')
+  try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.account.find_one({'id': payload['id']})
     all_card = list(db.cardlist.find({'type':'blog'},{'_id':False}))
-    return render_template('blog.html', blog_card=all_card)
+    return render_template('blog.html', blog_card=all_card, username=user_info['username'], token_receive=token_receive)
+  except jwt.ExpiredSignatureError:
+    return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
+  except jwt.exceptions.DecodeError:
+    return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
 
 @app.route("/website", methods=["GET"])
 def site():
+  token_receive = request.cookies.get('mytoken')
+  try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.account.find_one({'id': payload['id']})
     all_card = list(db.cardlist.find({'type':'website'},{'_id':False}))
-    return render_template('website.html', site_card=all_card)
-
+    return render_template('website.html', site_card=all_card, username=user_info['username'], token_receive=token_receive)
+  except jwt.ExpiredSignatureError:
+    return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
+  except jwt.exceptions.DecodeError:
+    return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
+    
 @app.route("/showcard", methods=["GET"])
 def card_get():
     all_card = list(db.cardlist.find({},{'_id':False}))
