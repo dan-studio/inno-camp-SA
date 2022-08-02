@@ -1,26 +1,25 @@
-import json
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for
-
-app = Flask(__name__)
-
+from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
-
+import certifi
 from dotenv import load_dotenv
 import os
-#load .env
+import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from time import sleep
+# load .env
 load_dotenv()
 DB = os.environ.get('DB')
 PORT = os.environ.get('PORT')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-import certifi
+# Flask App setup
+app = Flask(__name__)
+
+# DB
 ca = certifi.where()
-client = MongoClient(DB,tlsCAFile=ca)
+client = MongoClient(DB, tlsCAFile=ca)
 db = client.incfwdb
-
-
-
-
 
 # JWT 패키지를 사용합니다. (설치해야할 패키지 이름: PyJWT)
 import jwt
@@ -43,7 +42,7 @@ def home():
     return redirect(url_for('login', msg='로그인 시간이 만료되었습니다.'))
   except jwt.exceptions.DecodeError:
     return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-  
+
 @app.route('/login')
 def login():
   msg = request.args.get('msg')
@@ -115,5 +114,55 @@ def checkid():
   exists = bool(db.account.find_one({'id': id_receive}))
   return jsonify({'result': 'success', 'exists': exists})
 
+
+@app.route("/blog", methods=["GET"])
+def blog():
+    all_card = list(db.cardlist.find({'type':'blog'},{'_id':False}))
+    return render_template('blog.html', blog_card=all_card)
+
+@app.route("/website", methods=["GET"])
+def site():
+    all_card = list(db.cardlist.find({'type':'website'},{'_id':False}))
+    return render_template('website.html', site_card=all_card)
+
+@app.route("/showcard", methods=["GET"])
+def card_get():
+    all_card = list(db.cardlist.find({},{'_id':False}))
+    return jsonify({'all_card':all_card})
+
+@app.route("/opencard", methods=["POST"])
+def card_open():
+    num_receive = request.form['num_give']
+    user = db.cardlist.find_one({'num':int(num_receive)},{'_id':False})
+    return jsonify({'select_card':user})
+
+@app.route("/save_card", methods=["POST"])
+def card_save():
+    type_receive = request.form['type_give']
+    url_receive = request.form['url_give']
+    desc_receive = request.form['desc_give']
+
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) ''Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url_receive, headers=headers)
+
+    soup = BeautifulSoup(data.text, 'html.parser')
+
+    title = soup.select_one(f'meta[property="og:title"]')['content']
+    image = soup.select_one(f'meta[property="og:image"]')['content']
+    # desc = soup.select_one(f'meta[property="og:description"]')['content']
+
+    cdlist = list(db.cardlist.find({}, {'_id': False}))
+    count = len(cdlist) + 1
+
+    doc = {
+        'num': count,
+        'title': title,
+        'image': image,
+        'desc': desc_receive,
+        'type': type_receive,
+    }
+    db.cardlist.insert_one(doc)
+    return jsonify({'msg': "저장완료"})
+
 if __name__ == '__main__':
-  app.run('0.0.0.0', PORT, debug=True)
+    app.run('0.0.0.0', PORT, debug=True)
