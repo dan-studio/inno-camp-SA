@@ -59,8 +59,10 @@ function signin() {
 
   if (id == '') {
     alert('아이디를 입력하세요')
+    return false
   } else if (pw == '') {
     alert('비밀번호를 입력하세요')
+    return false
   }
   $.ajax({
     type: "POST",
@@ -80,4 +82,12 @@ function signin() {
       }
     }
   })
+}
+
+function signout() {
+  $.removeCookie('mytoken', {
+    path: '/'
+  });
+  alert('로그아웃!')
+  window.location.href = "/"
 }

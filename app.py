@@ -34,16 +34,20 @@ import hashlib
 
 @app.route('/')
 def home():
-  return render_template('index.html')
-  # token_receive = request.cookies.get('mytoken')
-  # try:
-  #   payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-  #   user_info = db.account.find_one({'id': payload['id']})
-  #   return render_template('index.html', username=user_info['username'])
-  # except jwt.ExpiredSignatureError:
-  #   return redirect(url_for('login', msg='로그인 시간이 만료되었습니다.'))
-  # except jwt.exceptions.DecodeError:
-  #   return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+  token_receive = request.cookies.get('mytoken')
+  try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.account.find_one({'id': payload['id']})
+    return render_template('sidenav.html', username=user_info['username'])
+  except jwt.ExpiredSignatureError:
+    return redirect(url_for('login', msg='로그인 시간이 만료되었습니다.'))
+  except jwt.exceptions.DecodeError:
+    return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+  
+@app.route('/login')
+def login():
+  msg = request.args.get('msg')
+  return render_template('login.html', msg=msg)
 
 #회원가입
 @app.route('/api/signup', methods=["POST"])
@@ -74,7 +78,6 @@ def api_signin():
   pw_receive = request.form['pw_give']
 
   pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-
   result = db.account.find_one({'id': id_receive, 'pw': pw_hash})
 
   if result is not None:
@@ -87,6 +90,7 @@ def api_signin():
     return jsonify({'result': 'success', 'token': token})
   else:
     return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'})
+
 
 #유저정보확인API
 @app.route('/api/user', methods=['GET'])
