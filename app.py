@@ -1,6 +1,4 @@
-# import json
-# from bson.objectid import ObjectId
-from bson import ObjectId
+
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import certifi
@@ -8,6 +6,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from bs4 import BeautifulSoup
+from random import uniform
 
 # load .env
 load_dotenv()
@@ -60,7 +59,6 @@ def site():
 @app.route("/showcard", methods=["GET"])
 def card_get():
     all_card = list(db.cardlist.find({},{'_id':False}))
-    print(all_card)
     return jsonify({'all_card':all_card})
 
 @app.route("/openmodal", methods=["POST"])
@@ -78,29 +76,38 @@ def card_save():
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) ''Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get(url_receive, headers=headers)
-
     soup = BeautifulSoup(data.text, 'html.parser')
+    try:
+        title = soup.select_one(f'meta[property="og:title"]')['content']
+        image = soup.select_one(f'meta[property="og:image"]')['content']
+        desc = soup.select_one(f'meta[property="og:description"]')['content']
+        number = int(uniform(1.0, 10.0) * 10000000000)
+        doc = {
+            'short_title': short_title_receive,
+            'title': title,
+            'image': image,
+            'desc': desc,
+            'type': type_receive,
+            'comment': comment_receive,
+            'num': number
+        }
+        db.cardlist.insert_one(doc)
 
-    title = soup.select_one(f'meta[property="og:title"]')['content']
-    image = soup.select_one(f'meta[property="og:image"]')['content']
-    desc = soup.select_one(f'meta[property="og:description"]')['content']
-
-    from random import uniform
-
-    # Random float:  2.5 <= x <= 10.0
-    number = int(uniform(1.0, 10.0)*10000000000)
-
-
-    doc = {
-        'short_title':short_title_receive,
-        'title': title,
-        'image': image,
-        'desc': desc,
-        'type': type_receive,
-        'comment':comment_receive,
-        'num':number
-    }
-    db.cardlist.insert_one(doc)
+    except:
+        title = soup.select_one('head > title').text
+        image = soup.select_one(f'meta[property="og:image"]')['content']
+        desc = '내용 요약은 따로 없습니다'
+        number = int(uniform(1.0, 10.0)*10000000000)
+        doc = {
+            'short_title':short_title_receive,
+            'title': title,
+            'image': image,
+            'desc': desc,
+            'type': type_receive,
+            'comment':comment_receive,
+            'num':number
+        }
+        db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})
 
 if __name__ == '__main__':

@@ -41,7 +41,7 @@ function openmodal(num) {
             let url = cardlist['url']
             let image = cardlist['image']
             let temp_html = `<div>
-                                  <img src="${image}" class="card-img-top in_modal_image" alt="![](../fav2.png)">
+                                  <img src="${image}" class="card-img-top in_modal_image" alt="사진 없습니다">
                                   <div class="card-body">${desc}</div>
                                   <div class="card-body">
                                     <h5 class="card-title">${title}</h5>
