@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, redirect, render_template, request, jsonify, url_for
 from pymongo import MongoClient
 import certifi
 from dotenv import load_dotenv
@@ -37,16 +37,22 @@ def home():
   try:
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.account.find_one({'id': payload['id']})
-    return render_template('sidenav.html', username=user_info['username'])
+    loggedin = (user_info == payload['id'])
+    return render_template('index.html', username=user_info['username'], token_receive=token_receive)
   except jwt.ExpiredSignatureError:
-    return redirect(url_for('login', msg='로그인 시간이 만료되었습니다.'))
+    return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
   except jwt.exceptions.DecodeError:
-    return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
 
 @app.route('/login')
 def login():
   msg = request.args.get('msg')
   return render_template('login.html', msg=msg)
+
+@app.route('/main')
+def main():
+  msg = request.args.get('msg')
+  return render_template('index.html', msg=msg)
 
 #회원가입
 @app.route('/api/signup', methods=["POST"])
@@ -82,7 +88,7 @@ def api_signin():
   if result is not None:
     payload = {
       'id': id_receive,
-      'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10)
+      'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
