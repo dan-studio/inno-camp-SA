@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- JQUERY -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Bootstrap CSS-->
@@ -38,54 +40,57 @@
         </ul>
         <div class="modal-body">
           <div class="tab-content" id="myTabContent">
+            <!-- login -->
             <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-              <h1 class="title">Login</h1>
               <div id="logForm">
-                <form>
+                <form onsubmit="return false;">
                   <div id="msg"></div>
                   <div class="txt_field">
                     <label>ID</label>
-                    <input type="text" name="id" class="id" required>
+                    <input type="text" name="id" id="ID" required>
                     <span></span>
                   </div>
                   <div class="txt_field">
                     <label>Password</label>
-                    <input type="password" name="pw" class="pw" required>
+                    <input type="password" name="pw" id="PW" required>
                     <span></span>
                   </div>
-                  <button class="submit btn btn-white" value="Login" id="loginSubmit">login</button>
+                  <button onclick="signin()" class="btn btn-white" value="Login" id="loginSubmit"><h4>login</h4></button>
                 </form>
               </div>
             </div>
+            <!-- /login -->
+            <!-- sign up -->
             <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-              <h1 class="sub_title">Register</h1>
               <div id="regForm">
-                <form>
+                <form onsubmit="return false;">
                   <div id="email-warning"></div>
                   <div class="txt_field">
                     <label>Username</label>
-                    <input type="text" name="username" class="username" required>
+                    <input type="text" name="username" id="username" required>
                     <span></span>
                   </div>
                   <div class="txt_field">
                     <label>ID</label>
-                    <input type="text" name="id" class="id" required>
+                    <button onclick="checkid()" style="float: right;" class="btn btn-white">ID 중복확인</button>
+                    <input style="margin-right: 18px;" type="text" name="id" id="id" required>
                     <span></span>
                   </div>
                   <div class="txt_field">
                     <label>Password</label>
-                    <input type="password" name="pw" class="pw" required>
+                    <input type="password" name="pw" id="pw" required>
                     <span></span>
                   </div>
                   <div class="txt_field">
                     <label>Confirm Pasword</label>
-                    <input type="password" name="cfpw" class="cfpw" required>
+                    <input type="password" name="cfpw" id="cfpw" required>
                     <span></span>
                   </div>
-                  <button class="submit btn btn-white" id="registerSubmit">Register</button>
+                  <button onclick="signup()" class="btn btn-white" id="registerSubmit" disabled><h4>Sign Up</h4></button>
                 </form>
               </div>
             </div>
+            <!-- /sign up -->
           </div>
         </div>
       </div>
@@ -105,6 +110,7 @@
     </ul>
   </div>
   <script src="/static/js/app.js"></script>
+  <script src="/static/js/account.js"></script>
 </body>
 
 </html>
