@@ -83,3 +83,9 @@ a {
     white-space: normal;
 
 }
+.in_modal_image{
+    width: 100% ;
+    max-width: 1000px;
+    height: 500px;
+    margin: auto;
+}
