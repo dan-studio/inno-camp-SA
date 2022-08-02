@@ -20,7 +20,7 @@
 
     <title>찾아봐tHub</title>
     <link rel="stylesheet" href="../static/css/style.css">
-    <script src="../static/js/app.js"></script>
+
 </head>
 <body>
 <!-- Button trigger modal -->
@@ -58,19 +58,19 @@
 <div>
     <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
         {% for card in blog_card %}
-        {% set title =card['title'] %}
+        {% set short_title =card['short_title'] %}
         {% set image = card['image']%}
-        {% set desc = card['desc'] %}
+        {% set comment = card['comment'] %}
         {% set num = card['num']%}
         {% set url =card['url'] %}
         <div class="col">
             <div class="card h-100">
                 <img src="{{ image }}" class="card-img-top in_card_image" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"><a href="{{ url }}">{{ title }}</a></h5>
+                    <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                       onclick="openmodal({{ num }})">{{ short_title }}</h5>
                     <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                       onclick="openpop({{ num }})" id="show">{{desc}}</p>
-                    <button> 자세히알아보기</button>
+                       onclick="openmodal({{ num }})" id="show">{{comment}}</p>
                 </div>
             </div>
         </div>
@@ -100,5 +100,6 @@
 <div class="modal-dialog modal-fullscreen-sm-down">
 
 </div>
+<script src="../static/js/app.js"></script>
 </body>
 </html>

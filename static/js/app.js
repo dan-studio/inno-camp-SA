@@ -7,16 +7,15 @@ function show_card() {
             let cardlist = response['all_card']
             for (let i = 0; i < cardlist.length; i++) {
                 let num = cardlist[i]['num']
-                let title = cardlist[i]['title']
-                let desc = cardlist[i]['desc']
-                let url = cardlist[i]['url']
+                let comment = cardlist[i]['comment']
+                let short_title = cardlist[i]['short_title']
                 let image = cardlist[i]['image']
                 let temp_html = `<div class="col">
                                             <div class="card h-100">
-                                                <img src="${image}" class="card-img-top in_card_image" alt="...">
+                                                <img src="${image}" class="card-img-top in_card_image" alt="사진 없습니다">
                                                 <div class="card-body">
-                                                    <h5 class="card-title"><a href="${url}">${title}</a></h5>
-                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openpop(${num})" id="show" >${desc}</p>
+                                                    <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})">${short_title}</h5>
+                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${comment}</p>
                                                 </div>
                                             </div>
                                         </div>`
@@ -27,25 +26,27 @@ function show_card() {
     })
 }
 
-function openpop(num) {
+function openmodal(num) {
     $('#modal').empty()
     $.ajax({
         type: "POST",
-        url: "/opencard",
+        url: "/openmodal",
         data: {num_give: num},
         success: function (response) {
             let cardlist = response['select_card']
             let num = cardlist['num']
-            let title = cardlist['title']
             let desc = cardlist['desc']
+            let title = cardlist['title']
+            let comment = cardlist['comment']
             let url = cardlist['url']
             let image = cardlist['image']
             let temp_html = `<div>
-                                  <img src="${image}" class="card-img-top in_modal_image" alt="...">
+                                  <img src="${image}" class="card-img-top in_modal_image" alt="![](../fav2.png)">
+                                  <div class="card-body">${desc}</div>
                                   <div class="card-body">
                                     <h5 class="card-title">${title}</h5>
-                                    <p class="card-text">${desc}</p>
-                                    <a href="${url}" class="btn btn-primary">페이지로 이동</a>
+                                    <p class="card-text">${comment}</p>
+                                    <a href="${url}" class="btn btn-primary" style="margin: auto">페이지로 이동</a>
                                   </div>
                                   <div><h3>댓글</h3>
                                   <hr>
@@ -65,7 +66,7 @@ function savecard() {
      $('#modal').empty()
     let temp_html = `<div >
                         <div class="input-group mb-3">
-                          <span class="input-group-text" id="basic-addon1">이름</span>
+                          <span class="input-group-text" id="basic-addon1">짧은 제목</span>
                           <input type="text" id="save_nickname" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                        </div> 
                        <div class="input-group mb-3">
@@ -84,7 +85,7 @@ function savecard() {
                         </div>
                         <div class="input-group">
                               <span class="input-group-text">설명을 해주세요</span>
-                              <textarea class="form-control" aria-label="With textarea" id="save_desc"></textarea>
+                              <textarea class="form-control" aria-label="With textarea" id="save_comment"></textarea>
                             </div>
                         <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
 </div> `
@@ -92,18 +93,19 @@ function savecard() {
     $('#modal').append(temp_html)
 }
 function savedata(){
-    let nickname = $('#save_nickname').val()
+    let short_title = $('#save_nickname').val()
     let url =$('#basic-url').val()
     let type =$('#inputGroupSelect01').val()
-    let desc =$('#save_desc').val()
+    let comment =$('#save_comment').val()
 
     $.ajax({
         type: "POST",
         url: "/save_card",
         data: {
+            short_title_give:short_title,
             url_give:url,
             type_give:type,
-            desc_give:desc,},
+            comment_give:comment,},
         success: function (response) {
             alert(response['msg'])
             window.location.reload()

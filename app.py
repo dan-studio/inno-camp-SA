@@ -1,4 +1,6 @@
-import json
+# import json
+# from bson.objectid import ObjectId
+from bson import ObjectId
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import certifi
@@ -6,8 +8,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from time import sleep
+
 # load .env
 load_dotenv()
 DB = os.environ.get('DB')
@@ -34,7 +35,7 @@ def signup():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
 
-    account = list(db.account.find({}, {'_id': False}))
+    account = list(db.account.find({},{'_id':False}))
     count = len(account) + 1
 
     doc = {
@@ -59,9 +60,10 @@ def site():
 @app.route("/showcard", methods=["GET"])
 def card_get():
     all_card = list(db.cardlist.find({},{'_id':False}))
+    print(all_card)
     return jsonify({'all_card':all_card})
 
-@app.route("/opencard", methods=["POST"])
+@app.route("/openmodal", methods=["POST"])
 def card_open():
     num_receive = request.form['num_give']
     user = db.cardlist.find_one({'num':int(num_receive)},{'_id':False})
@@ -69,9 +71,10 @@ def card_open():
 
 @app.route("/save_card", methods=["POST"])
 def card_save():
+    short_title_receive = request.form['short_title_give']
     type_receive = request.form['type_give']
     url_receive = request.form['url_give']
-    desc_receive = request.form['desc_give']
+    comment_receive = request.form['comment_give']
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) ''Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get(url_receive, headers=headers)
@@ -80,17 +83,22 @@ def card_save():
 
     title = soup.select_one(f'meta[property="og:title"]')['content']
     image = soup.select_one(f'meta[property="og:image"]')['content']
-    # desc = soup.select_one(f'meta[property="og:description"]')['content']
+    desc = soup.select_one(f'meta[property="og:description"]')['content']
 
-    cdlist = list(db.cardlist.find({}, {'_id': False}))
-    count = len(cdlist) + 1
+    from random import uniform
+
+    # Random float:  2.5 <= x <= 10.0
+    number = int(uniform(1.0, 10.0)*10000000000)
+
 
     doc = {
-        'num': count,
+        'short_title':short_title_receive,
         'title': title,
         'image': image,
-        'desc': desc_receive,
+        'desc': desc,
         'type': type_receive,
+        'comment':comment_receive,
+        'num':number
     }
     db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})
