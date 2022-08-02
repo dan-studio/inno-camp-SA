@@ -21,11 +21,7 @@
     <!-- External CSS -->
     <link type="text/css" rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image" href="/static/images/fav2.png">
-    <script>
-        $(document).ready(function () {
-            show_card();
-        });
-    </script>
+    <title>찾아봤tHub</title>
 </head>
 
 <body>
@@ -44,7 +40,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="modal">
-                        <h1></h1>
+                        <h1>될까</h1>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -62,11 +58,27 @@
             <input type="submit" class="search_btn" value="검색">
         </form>
     </div>
-    <div><button data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="savecard()">추가를 해보자</button>
-    </div>
+
     <div>
         <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
-
+            {% for card in blog_card %}
+            {% set title =card['title'] %}
+            {% set image = card['image']%}
+            {% set desc = card['desc'] %}
+            {% set num = card['num']%}
+            {% set url =card['url'] %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ image }}" class="card-img-top in_card_image" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{{ url }}">{{ title }}</a></h5>
+                        <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                            onclick="openpop({{ num }})" id="show">{{desc}}</p>
+                        <button> 자세히알아보기</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
 
         </div>
     </div>
@@ -108,7 +120,7 @@
         </ul>
     </div>
     <script src="/static/js/account.js"></script>
-    <script src="/static/js/app.js"></script>
+    <script src="../static/js/app.js"></script>
 </body>
 
 </html>
