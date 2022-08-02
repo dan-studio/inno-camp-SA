@@ -198,5 +198,7 @@ def card_save():
             'num': number
         }
         db.cardlist.insert_one(doc)
+    return jsonify({'msg': "저장완료"})
+
 if __name__ == '__main__':
     app.run('0.0.0.0', PORT, debug=True)
