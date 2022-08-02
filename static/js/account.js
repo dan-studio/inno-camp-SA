@@ -156,7 +156,7 @@ function checkid() {
   }
   $.ajax({
     type: "POST",
-    url: '/api/signup/checkid',
+    url: '/signup/checkid',
     data: {
       id_give: id
     },
@@ -184,7 +184,7 @@ function signin() {
   }
   $.ajax({
     type: "POST",
-    url: "/api/signin",
+    url: "/signin",
     data: {
       id_give: id,
       pw_give: pw

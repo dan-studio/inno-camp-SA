@@ -24,14 +24,25 @@ a {
 }
 
 .search_box {
-    max-width: 1000px;
-    width: 50%;
-    margin: 20px auto 20px auto;
+    width: 300px;
+    margin: 20px auto;
     display: flex;
     align-items: center;
     flex-direction: row;
 }
-
+#btn_insert{
+  width: 100px;
+  margin: auto;
+}
+#btn_insert input{
+  background-color: white;
+  font-size: 20px;
+  border: none;
+  transition: .4s;
+}
+#btn_insert input:hover{
+  color: rgba(254, 219, 172, 0.623);
+}
 .search_bar {
     max-width: 1000px;
     width: 80%;
@@ -211,3 +222,4 @@ a {
 #isloggedin{
   font-size: 10px;
 }
+

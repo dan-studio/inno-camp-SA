@@ -53,7 +53,7 @@ def main():
   return render_template('index.html', msg=msg)
 
 #회원가입
-@app.route('/api/signup', methods=["POST"])
+@app.route('/signup', methods=["POST"])
 def api_signup():
     username_receive = request.form['username_give']
     id_receive = request.form['id_give']
@@ -75,7 +75,7 @@ def api_signup():
     return jsonify({'result': '회원가입 완료!'})
 
 #로그인
-@app.route('/api/signin', methods=["POST"])
+@app.route('/signin', methods=["POST"])
 def api_signin():
   id_receive = request.form['id_give']
   pw_receive = request.form['pw_give']
@@ -96,7 +96,7 @@ def api_signin():
 
 
 #유저정보확인API
-@app.route('/api/user', methods=['GET'])
+@app.route('/user', methods=['GET'])
 def api_valid():
   token_receive = request.cookies.get('mytoken')
   try:
@@ -111,7 +111,7 @@ def api_valid():
     return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
 #아이디중복확인
-@app.route('/api/signup/checkid', methods=['POST'])
+@app.route('/signup/checkid', methods=['POST'])
 def checkid():
   id_receive = request.form['id_give']
   exists = bool(db.account.find_one({'id': id_receive}))
