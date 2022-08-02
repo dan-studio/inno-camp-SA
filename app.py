@@ -20,7 +20,8 @@ db = client.incfwdb
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    title = list(db.jungjin.find({}, {"_id": False}))
+    return render_template('index.html', title=title)
 
 @app.route('/signup', methods=["POST"])
 def signup():
@@ -40,10 +41,9 @@ def signup():
     return jsonify({'msg': '회원가입이 완료되었습니다!'})
 
 
-
-@app.route('/jungjin', methods=['GET'])
+@app.route('/search')
 def search():
-    return jsonify({'msg' : 'GET 연결 완료!'})
+    return render_template("search.html")
     # writer_receive = request.form['writer_give']
     # results = list(db.jungjin.find({"title_name": title_receive}, {'_id': False}))
 

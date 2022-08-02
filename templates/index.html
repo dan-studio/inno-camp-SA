@@ -4,24 +4,35 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		dㅁ
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+			crossorigin="anonymous"
+		/>
 		<link rel="stylesheet" href="/static/css/style.css" />
+
 		<title>찾아봐tHub</title>
 		<script>
-			$(document).ready(function () {
-				show_order();
-			});
-			function show_order(target) {
-				let word = target.value;
-				let title = $.ajax({
-					type: "GET",
-					url: "/jungjin",
-					data: {},
-					success: function (response) {
-						alert(response["msg"]);
-					},
-				});
+			let title = {{ title|tojson }};
+			let title_list = [];
+			for (let i=0; i<title.length; i++){
+			  title_list.push(title[i]["title"])
+			}
+			consol.log(title_list)
+
+			function search () {
+			     let word = $("#input-title").val()
+			     if (title_list.includes(word)) {
+			         console.log(title)
+			     } else {
+			         console.log('hi')
+			            console.log(title)
+			     }
 			}
 		</script>
 	</head>
@@ -31,11 +42,16 @@
 			<input type="password" name="" id="pw" />
 			<button onclick="signup()" type="button">회원가입</button>
 		</div>
-		<form>
-			<input type="text" placeholder="제목을 입력해주세요." />
-			<button onclick="search()">검색</button>
-		</form>
-
+		<div class="search-box d-flex justify-content-center">
+			<input
+				id="input-title"
+				class="form-control"
+				style="margin-right: 0.5rem"
+				type="text"
+				placeholder="제목을 입력해주세요."
+			/>
+			<button class="btn brn-right" onclick="search()">검색</button>
+		</div>
 		<script src="/static/js/app.js"></script>
 	</body>
 </html>
