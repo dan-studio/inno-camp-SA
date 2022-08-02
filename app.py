@@ -5,8 +5,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from time import sleep
+from random import uniform
 # load .env
 load_dotenv()
 DB = os.environ.get('DB')
@@ -151,7 +150,7 @@ def card_get():
     all_card = list(db.cardlist.find({},{'_id':False}))
     return jsonify({'all_card':all_card})
 
-@app.route("/opencard", methods=["POST"])
+@app.route("/openmodal", methods=["POST"])
 def card_open():
     num_receive = request.form['num_give']
     user = db.cardlist.find_one({'num':int(num_receive)},{'_id':False})
@@ -161,29 +160,43 @@ def card_open():
 def card_save():
     type_receive = request.form['type_give']
     url_receive = request.form['url_give']
-    desc_receive = request.form['desc_give']
+    comment_receive = request.form['comment_give']
+    short_title_receive = request.form['short_title_give']
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) ''Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get(url_receive, headers=headers)
 
     soup = BeautifulSoup(data.text, 'html.parser')
+    try:
+        title = soup.select_one(f'meta[property="og:title"]')['content']
+        image = soup.select_one(f'meta[property="og:image"]')['content']
+        desc = soup.select_one(f'meta[property="og:description"]')['content']
+        number = int(uniform(1.0, 10.0) * 10000000000)
+        doc = {
+            'short_title': short_title_receive,
+            'title': title,
+            'image': image,
+            'desc': desc,
+            'type': type_receive,
+            'comment': comment_receive,
+            'num': number
+        }
+        db.cardlist.insert_one(doc)
 
-    title = soup.select_one(f'meta[property="og:title"]')['content']
-    image = soup.select_one(f'meta[property="og:image"]')['content']
-    # desc = soup.select_one(f'meta[property="og:description"]')['content']
-
-    cdlist = list(db.cardlist.find({}, {'_id': False}))
-    count = len(cdlist) + 1
-
-    doc = {
-        'num': count,
-        'title': title,
-        'image': image,
-        'desc': desc_receive,
-        'type': type_receive,
-    }
-    db.cardlist.insert_one(doc)
-    return jsonify({'msg': "저장완료"})
-
+    except:
+        title = soup.select_one('head > title').text
+        image = soup.select_one(f'meta[property="og:image"]')['content']
+        desc = '내용 요약은 따로 없습니다'
+        number = int(uniform(1.0, 10.0) * 10000000000)
+        doc = {
+            'short_title': short_title_receive,
+            'title': title,
+            'image': image,
+            'desc': desc,
+            'type': type_receive,
+            'comment': comment_receive,
+            'num': number
+        }
+        db.cardlist.insert_one(doc)
 if __name__ == '__main__':
     app.run('0.0.0.0', PORT, debug=True)

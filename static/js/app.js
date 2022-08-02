@@ -31,7 +31,7 @@ function show_card() {
                                                 <img src="${image}" class="card-img-top in_card_image" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title"><a href="${url}">${title}</a></h5>
-                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openpop(${num})" id="show" >${desc}</p>
+                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${desc}</p>
                                                 </div>
                                             </div>
                                         </div>`
@@ -42,11 +42,11 @@ function show_card() {
   })
 }
 
-function openpop(num) {
+function openmodal(num) {
   $('#modal').empty()
   $.ajax({
     type: "POST",
-    url: "/opencard",
+    url: "/openmodal",
     data: {
       num_give: num
     },
@@ -83,7 +83,7 @@ function savecard() {
   let temp_html = `<div >
                         <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon1">이름</span>
-                          <input type="text" id="save_nickname" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                          <input type="text" id="short_title" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                        </div> 
                        <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon3">올리려고 하는 url</span>
@@ -101,7 +101,7 @@ function savecard() {
                         </div>
                         <div class="input-group">
                               <span class="input-group-text">설명을 해주세요</span>
-                              <textarea class="form-control" aria-label="With textarea" id="save_desc"></textarea>
+                              <textarea class="form-control" aria-label="With textarea" id="save_comment"></textarea>
                             </div>
                         <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
 </div> `
@@ -110,10 +110,10 @@ function savecard() {
 }
 
 function savedata() {
-  let nickname = $('#save_nickname').val()
+  let short_title = $('#short_title').val()
   let url = $('#basic-url').val()
   let type = $('#inputGroupSelect01').val()
-  let desc = $('#save_desc').val()
+  let comment = $('#save_comment').val()
 
   $.ajax({
     type: "POST",
@@ -121,7 +121,8 @@ function savedata() {
     data: {
       url_give: url,
       type_give: type,
-      desc_give: desc,
+      comment_give: comment,
+      short_title_give:short_title,
     },
     success: function (response) {
       alert(response['msg'])
