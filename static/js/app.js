@@ -22,7 +22,7 @@ function show_card() {
       let cardlist = response['all_card']
       for (let i = 0; i < cardlist.length; i++) {
         let num = cardlist[i]['num']
-        let title = cardlist[i]['title']
+        let title = cardlist[i]['short_title']
         let desc = cardlist[i]['desc']
         let url = cardlist[i]['url']
         let image = cardlist[i]['image']
@@ -30,7 +30,7 @@ function show_card() {
                                             <div class="card h-100">
                                                 <img src="${image}" class="card-img-top in_card_image" alt="...">
                                                 <div class="card-body">
-                                                    <h5 class="card-title"><a href="${url}">${title}</a></h5>
+                                                    <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})">${title}</h5>
                                                     <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${desc}</p>
                                                 </div>
                                             </div>
