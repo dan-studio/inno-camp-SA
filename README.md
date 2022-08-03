@@ -12,7 +12,7 @@ Innovation Camp Starting Assignment
 
 --------------------
 ## 👥 팀원 소개
-- 준묵 ((github.com/dan-studio))
+- 준묵 ([dan-studio](https://github.com/dan-studio))
 - 보현 ([bobboro](github.com/bobboro))
 - 정진 ([OhJungJin](github.com/OhJungJin))
 - 태권 ([momoco-git](github.com/momoco-git))
