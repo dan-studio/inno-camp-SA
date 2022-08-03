@@ -27,7 +27,7 @@ db = client.incfwdb
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('comments.html')
 
 
 @app.route('/signup', methods=["POST"])

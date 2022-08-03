@@ -61,6 +61,7 @@ function getComments() {
     })
 }
 
+
 // 댓글 삭제
 function delComments(cid) {
     // console.log(cid)
