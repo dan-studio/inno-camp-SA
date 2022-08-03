@@ -209,11 +209,49 @@
   width: 100px;
   margin: auto;
 }
-
+#page-subtitle {
+  width: 535px;
+  margin: 40px auto;
+}
 #page-title h1 {
   color: #666;
   font-size: 40px;
 }
 #login-tab, #signup-tab{
   color: black
+}
+#developers{
+  width:800px;
+  margin: auto
+}
+#developers ul{
+  list-style: none;
+}
+
+#developers ul li{
+  float: left;
+}
+#developers ul li img{
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid rgba(178, 178, 178, 0.708);
+  vertical-align: top;
+  margin: 10px
+
+}
+#developers ul li div{
+  width: 150px;
+  margin: auto;
+}
+#developers ul li div a{
+  vertical-align: bottom;
+  text-decoration: none;
+  color: black;
+  transition: .4s;
+  font-size: 20px;
+  width: 150px;
+  margin: 15px;
+}
+#developers ul li a:hover{
+  color: rgba(255, 223, 182, 0.705);
 }
