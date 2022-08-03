@@ -61,6 +61,8 @@ function openmodal(num) {
       let desc = cardlist['desc']
       let url = cardlist['url']
       let image = cardlist['image']
+      let num = cardlist['num']
+      let delete_html = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cardDelete(${num})">Delete</button>`
       let temp_html = `<div>
                                   <img src="${image}" class="card-img-top in_modal_image" alt="...">
                                   <div class="card-body">
@@ -79,6 +81,7 @@ function openmodal(num) {
 
       $('#staticBackdropLabel').text(short_title)
       $('#modal').append(temp_html)
+      $('.modal-footer').append(delete_html)
     }
   })
 }
@@ -134,4 +137,17 @@ function savedata() {
       window.location.reload()
     }
   })
+}
+function cardDelete(num) {
+  $.ajax({
+    type: "POST",
+    url: `/carddelete`,
+    data: {
+      num_give: num
+    },
+    success: function (response) {
+      alert(response["msg"])
+      window.location.href = "/"
+    }
+  });
 }

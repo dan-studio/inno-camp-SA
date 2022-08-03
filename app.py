@@ -30,6 +30,9 @@ import datetime
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
 import hashlib
 
+from bson.json_util import dumps
+from bson import ObjectId
+
 @app.route('/')
 def home():
   token_receive = request.cookies.get('mytoken')
@@ -211,6 +214,12 @@ def card_save():
         }
         db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})
+
+@app.route("/carddelete", methods=["POST"])
+def cardDelete():
+    num_receive = request.form['num_give']
+    db.cardlist.delete_one({'num':int(num_receive)})
+    return jsonify({'msg': "삭제완료"})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', PORT, debug=True)
