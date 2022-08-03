@@ -99,13 +99,16 @@ def api_signin():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
 
+
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     result = db.account.find_one({'id': id_receive, 'pw': pw_hash})
+    username = result['username']
 
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30),
+            'username': username
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -138,13 +141,13 @@ def checkid():
     return jsonify({'result': 'success', 'exists': exists})
 
 
-@app.route("/mypost/<username>")
+@app.route('/mypost/<username>')
 def mypost(username):
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        status = (username == payload["id"])
-        user_info = db.cardlist.find_one({"username": username}, {"_id": False})
+        status = (username == payload['username'])
+        user_info = list(db.cardlist.find({'username': username}, {'_id': False}))
         return render_template('mypost.html', user_info=user_info, status=status)
     except jwt.ExpiredSignatureError:
         return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
