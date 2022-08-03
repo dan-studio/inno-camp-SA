@@ -96,7 +96,7 @@
     <div id="sidebar">
         <ul>
             {%if token_receive%}
-            <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a> </li>
+             <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ userid }}">{{username}}님 환영합니다!!</a> </li>
             <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
             {%else%}
             <li><a href="/login">Login</a></li>

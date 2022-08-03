@@ -39,7 +39,7 @@ def home():
   try:
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.account.find_one({'id': payload['id']})
-    return render_template('index.html', username=user_info['username'], token_receive=token_receive)
+    return render_template('index.html', username=user_info['username'], userid=user_info['id'],token_receive=token_receive)
   except jwt.ExpiredSignatureError:
     return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
   except jwt.exceptions.DecodeError:
@@ -96,13 +96,11 @@ def api_signin():
 
   pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
   result = db.account.find_one({'id': id_receive, 'pw': pw_hash})
-  username = result['username']
 
   if result is not None:
     payload = {
         'id': id_receive,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30),
-        'username': username
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -141,7 +139,7 @@ def blog():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.account.find_one({'id': payload['id']})
     all_card = list(db.cardlist.find({'type':'blog'},{'_id':False}))
-    return render_template('blog.html', blog_card=all_card, username=user_info['username'], token_receive=token_receive)
+    return render_template('blog.html', blog_card=all_card, username=user_info['username'], userid=user_info['id'],token_receive=token_receive)
   except jwt.ExpiredSignatureError:
     return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
   except jwt.exceptions.DecodeError:
@@ -154,7 +152,7 @@ def site():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.account.find_one({'id': payload['id']})
     all_card = list(db.cardlist.find({'type':'website'},{'_id':False}))
-    return render_template('website.html', site_card=all_card, username=user_info['username'], token_receive=token_receive)
+    return render_template('website.html', site_card=all_card, username=user_info['username'],userid=user_info['id'],token_receive=token_receive)
   except jwt.ExpiredSignatureError:
     return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
   except jwt.exceptions.DecodeError:
@@ -173,6 +171,9 @@ def card_open():
 
 @app.route("/save_card", methods=["POST"])
 def card_save():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    userinfo = db.account.find_one({'id': payload['id']}, {'_id': False})
     type_receive = request.form['type_give']
     url_receive = request.form['url_give']
     comment_receive = request.form['comment_give']
@@ -188,6 +189,7 @@ def card_save():
         desc = soup.select_one(f'meta[property="og:description"]')['content']
         number = int(uniform(1.0, 10.0) * 10000000000)
         doc = {
+            'username': userinfo['id'],
             'short_title': short_title_receive,
             'title': title,
             'image': image,
@@ -205,6 +207,7 @@ def card_save():
         desc = '내용 요약은 따로 없습니다'
         number = int(uniform(1.0, 10.0) * 10000000000)
         doc = {
+            'username': userinfo['id'],
             'short_title': short_title_receive,
             'title': title,
             'image': image,
@@ -217,14 +220,14 @@ def card_save():
         db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})
     
-@app.route('/mypost/<username>')
-def mypost(username):
+@app.route('/mypost/<userid>')
+def mypost(userid):
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        status = (username == payload['username'])
-        user_info = list(db.cardlist.find({'username': username}, {'_id': False}))
-        return render_template('mypost.html', user_info=user_info, status=status,token_receive=token_receive,username=username)
+        status = (userid == payload['id'])
+        user_info = list(db.cardlist.find({'username': userid }, {'_id': False}))
+        return render_template('mypost.html', status=status,user_info=user_info, token_receive=token_receive)
     except jwt.ExpiredSignatureError:
         return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
     except jwt.exceptions.DecodeError:
