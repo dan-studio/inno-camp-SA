@@ -44,9 +44,10 @@
                         <h1></h1>
                     </div>
                 </div>
-                <div class="modal-footer" >
+                <div class="modal-footer">
                     <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><div id="delete"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div id="delete"></div>
                 </div>
             </div>
         </div>
@@ -54,18 +55,15 @@
     <div class="main_title">
         <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
     </div>
-    
-   <div class="search_box">
-			<!-- <form class="search_box"> -->
-			<input
-				id="input-title"
-				type="text"
-				class="search_bar"
-				placeholder="무엇을 찾고싶은가요?"
-			/>
-			<input type="button" class="search_btn" onclick="search()" value="검색" />
-			<!-- </form> -->
-		</div>
+    <div id="info">
+        <h6>🚨모든 기능을 이용하시려면 로그인을 해주세요🚨</h6>
+    </div>
+    <div class="search_box">
+        <!-- <form class="search_box"> -->
+        <input id="input-title" type="text" class="search_bar" placeholder="무엇을 찾고싶은가요?" />
+        <input type="button" class="search_btn" onclick="search()" value="검색" />
+        <!-- </form> -->
+    </div>
     {%if token_receive%}
     <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
             onclick="savecard()" value="추가해tHub">

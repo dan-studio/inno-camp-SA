@@ -254,3 +254,8 @@
 #developers ul li a:hover{
   color: rgba(255, 223, 182, 0.705);
 }
+#info{
+  width: 283px;
+  margin: auto;
+  color: rgba(58, 148, 238, 0.86);
+}
