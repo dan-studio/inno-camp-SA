@@ -81,6 +81,8 @@ function openmodal(num) {
 
       $('#staticBackdropLabel').text(short_title)
       $('#modal').append(temp_html)
+      $('#delete').empty()
+      $('#delete').append(delete_html)
     }
   })
 }

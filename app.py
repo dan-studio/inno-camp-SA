@@ -96,11 +96,13 @@ def api_signin():
 
   pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
   result = db.account.find_one({'id': id_receive, 'pw': pw_hash})
+  username = result['username']
 
   if result is not None:
     payload = {
-      'id': id_receive,
-      'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+        'id': id_receive,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30),
+        'username': username
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -214,6 +216,19 @@ def card_save():
         }
         db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})
+    
+@app.route('/mypost/<username>')
+def mypost(username):
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        status = (username == payload['username'])
+        user_info = list(db.cardlist.find({'username': username}, {'_id': False}))
+        return render_template('mypost.html', user_info=user_info, status=status,token_receive=token_receive,username=username)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
 
 @app.route("/carddelete", methods=["POST"])
 def cardDelete():
