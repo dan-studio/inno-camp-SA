@@ -127,8 +127,10 @@ function signup() {
     alert('아이디를 입력하세요')
   } else if (pw == "") {
     alert('비밀번호를 입력하세요')
+		return false;
   } else if (cfpw == "") {
     alert('비밀번호를 다시 한번 입력하세요')
+		return false;
   } else if (cfpw !== pw) {
     alert('비밀번호가 일치하지 않습니다.')
     return false;
@@ -165,6 +167,7 @@ function checkid() {
         alert('이미 존재하는 아이디입니다.')
       } else {
         alert('사용 가능한 아이디입니다.')
+				document.getElementById('id').disabled=true
         button.disabled=false;
       }
     }
