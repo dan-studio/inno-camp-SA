@@ -33,12 +33,36 @@
     <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
   </div>
   <div id="page-title"><h1>About</h1></div>
-
+  <div id="page-subtitle"><h5>오픈소스나 문제 해결에 도움된 블로그 혹은 사이트를 저장하는 공간입니다.</h5></div>
+  <div id="developers">
+    <ul>
+      <li>
+        <div><img src="https://avatars.githubusercontent.com/u/78805018?v=4" alt="profile-Img"></div>
+        <div><a href="https://github.com/dan-studio" target="_blank">dan-studio</a></div>
+      </li>
+      <li>
+        <div><img src="https://avatars.githubusercontent.com/u/47635176?v=4" alt="profile-Img"></div>
+        <div><a href="https://github.com/bobboro" target="_blank">bobboro</a></div>
+      </li>
+      <li>
+        <div><img src="https://avatars.githubusercontent.com/u/84957136?v=4" alt="profile-Img"></div>
+      <div><a href="https://github.com/OhJungJin" target="_blank">OhJungJin</a></div>
+      </li>
+      <li>
+        <div><img src="https://avatars.githubusercontent.com/u/109949855?v=4" alt="profile-Img"></div>
+      <div><a href="https://github.com/momoco-git" target="_blank">momoco-git</a></div>
+      </li>
+      <li>
+        <div><img src="https://avatars.githubusercontent.com/u/96896687?v=4" alt="profile-Img"></div>
+      <div><a href="https://github.com/namuneo" target="_blank">namuneo</a></div>
+      </li>
+    </ul>
+  </div>
   <div id="toggle"></div>
   <div id="sidebar">
     <ul>
       {%if token_receive%}
-      <li id="loggedIn">{{username}}님 환영합니다!!</li>
+      <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a></li>
       <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
       {%else%}
       <li><a href="/login">Login</a></li>

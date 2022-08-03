@@ -61,6 +61,8 @@ function openmodal(num) {
       let desc = cardlist['desc']
       let url = cardlist['url']
       let image = cardlist['image']
+      let num = cardlist['num']
+      let delete_html = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cardDelete(${num})">Delete</button>`
       let temp_html = `<div>
                                   <img src="${image}" class="card-img-top in_modal_image" alt="...">
                                   <div class="card-body">
@@ -134,4 +136,12 @@ function savedata() {
       window.location.reload()
     }
   })
+}
+function cf(){
+  let message = confirm('정말로 삭제하시겠습니까?')
+  if(message){
+    alert('yes')
+  }else{
+    alert('no')
+  }
 }

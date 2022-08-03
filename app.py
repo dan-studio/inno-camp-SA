@@ -30,6 +30,9 @@ import datetime
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
 import hashlib
 
+from bson.json_util import dumps
+from bson import ObjectId
+
 @app.route('/')
 def home():
   token_receive = request.cookies.get('mytoken')
@@ -168,9 +171,6 @@ def card_open():
 
 @app.route("/save_card", methods=["POST"])
 def card_save():
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    userinfo = db.account.find_one({'id': payload['id']}, {'_id': False})
     type_receive = request.form['type_give']
     url_receive = request.form['url_give']
     comment_receive = request.form['comment_give']
@@ -186,7 +186,6 @@ def card_save():
         desc = soup.select_one(f'meta[property="og:description"]')['content']
         number = int(uniform(1.0, 10.0) * 10000000000)
         doc = {
-            'username': userinfo['username'],
             'short_title': short_title_receive,
             'title': title,
             'image': image,
@@ -204,7 +203,6 @@ def card_save():
         desc = '내용 요약은 따로 없습니다'
         number = int(uniform(1.0, 10.0) * 10000000000)
         doc = {
-            'username': userinfo['username'],
             'short_title': short_title_receive,
             'title': title,
             'image': image,
@@ -216,6 +214,12 @@ def card_save():
         }
         db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})
+
+@app.route("/carddelete", methods=["POST"])
+def cardDelete():
+    num_receive = request.form['num_give']
+    db.cardlist.delete_one({'num':int(num_receive)})
+    return jsonify({'msg': "삭제완료"})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', PORT, debug=True)

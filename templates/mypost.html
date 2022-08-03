@@ -21,22 +21,21 @@
     <!-- External CSS -->
     <link type="text/css" rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image" href="/static/images/fav2.png">
-    <script>
-        $(document).ready(function () {
-            show_card();
-
-        });
-    </script>
+    <title>찾아봤tHub</title>
 </head>
 
 <body>
+    <!-- Button trigger modal -->
+
+
     <!-- Modal -->
+
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">추가해tHub</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -44,8 +43,8 @@
                         <h1></h1>
                     </div>
                 </div>
-                <div class="modal-footer" >
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button id="delete" type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cardDelete(${num})">Delete</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -53,6 +52,7 @@
     <div class="main_title">
         <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
     </div>
+    <div id="page-title"><h1>MyPosts</h1></div>
     <div class="search_box">
         <form class="search_box">
             <input type="text" class="search_bar" placeholder="무엇을 찾고싶은가요?">
@@ -60,14 +60,32 @@
         </form>
     </div>
     {%if token_receive%}
-    <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            onclick="savecard()" value="추가해tHub">
+    <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="savecard()"
+        value="추가해tHub">
     </div>
-    {%endif%}
+        {%endif%}
     <div>
         <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
-
-
+            {% if status %}
+            {% for card in user_info %}
+            {% set short_title =card['short_title'] %}
+            {% set image = card['image']%}
+            {% set comment = card['comment'] %}
+            {% set num = card['num']%}
+            {% set url =card['url'] %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ image }}" class="card-img-top in_card_image" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                           onclick="openmodal({{ num }})">{{ short_title }}</h5>
+                        <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                           onclick="openmodal({{ num }})" id="show">{{comment}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
         </div>
     </div>
     <div class="pagination">
@@ -95,12 +113,12 @@
     <div id="toggle"></div>
     <div id="sidebar">
         <ul>
-            {%if token_receive%}
-            <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a> </li>
-            <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
-            {%else%}
-            <li><a href="/login">Login</a></li>
-            {%endif%}
+              {%if token_receive%}
+              <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a></li>
+              <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
+              {%else%}
+              <li><a href="/login">Login</a></li>
+              {%endif%}
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -108,7 +126,6 @@
         </ul>
     </div>
     <script src="/static/js/account.js"></script>
-    <script src="/static/js/app.js"></script>
+    <script src="../static/js/app.js"></script>
 </body>
-
 </html>
