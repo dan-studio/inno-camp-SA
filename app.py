@@ -148,7 +148,7 @@ def mypost(username):
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         status = (username == payload['username'])
         user_info = list(db.cardlist.find({'username': username}, {'_id': False}))
-        return render_template('mypost.html', user_info=user_info, status=status)
+        return render_template('mypost.html', user_info=user_info, status=status,token_receive=token_receive,username=username)
     except jwt.ExpiredSignatureError:
         return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
     except jwt.exceptions.DecodeError:
@@ -162,8 +162,7 @@ def blog():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.account.find_one({'id': payload['id']})
         all_card = list(db.cardlist.find({'type': 'blog'}, {'_id': False}))
-        return render_template('blog.html', blog_card=all_card, username=user_info['username'],
-                               token_receive=token_receive)
+        return render_template('blog.html', blog_card=all_card, username=user_info['username'],token_receive=token_receive)
     except jwt.ExpiredSignatureError:
         return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
     except jwt.exceptions.DecodeError:
