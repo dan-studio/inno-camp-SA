@@ -168,6 +168,9 @@ def card_open():
 
 @app.route("/save_card", methods=["POST"])
 def card_save():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    userinfo = db.account.find_one({'id': payload['id']}, {'_id': False})
     type_receive = request.form['type_give']
     url_receive = request.form['url_give']
     comment_receive = request.form['comment_give']
@@ -183,6 +186,7 @@ def card_save():
         desc = soup.select_one(f'meta[property="og:description"]')['content']
         number = int(uniform(1.0, 10.0) * 10000000000)
         doc = {
+            'username': userinfo['username'],
             'short_title': short_title_receive,
             'title': title,
             'image': image,
@@ -200,6 +204,7 @@ def card_save():
         desc = '내용 요약은 따로 없습니다'
         number = int(uniform(1.0, 10.0) * 10000000000)
         doc = {
+            'username': userinfo['username'],
             'short_title': short_title_receive,
             'title': title,
             'image': image,
