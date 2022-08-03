@@ -88,7 +88,7 @@ function savecard() {
   let temp_html = `<div >
                         <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon1">글제목</span>
-                          <input type="text" id="short_title" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                          <input type="text" id="short_title" class="form-control" placeholder="짧게 지어주세요" aria-label="Username" aria-describedby="basic-addon1">
                        </div> 
                        <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon3">올리려고 하는 url</span>
