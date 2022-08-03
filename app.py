@@ -52,6 +52,17 @@ def main():
   msg = request.args.get('msg')
   return render_template('index.html', msg=msg)
 
+@app.route('/about')
+def about():
+  token_receive = request.cookies.get('mytoken')
+  try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.account.find_one({'id': payload['id']})
+    return render_template('about.html', username=user_info['username'], token_receive=token_receive)
+  except jwt.ExpiredSignatureError:
+    return redirect(url_for('main', msg='로그인 시간이 만료되었습니다.'))
+  except jwt.exceptions.DecodeError:
+    return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
 #회원가입
 @app.route('/signup', methods=["POST"])
 def api_signup():
