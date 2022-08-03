@@ -156,7 +156,7 @@
   top: 0;
   transform: translateX(0px);
   right: -300px;
-  width: 280px;
+  width: 330px;
   height: 100vh;
   background: white;
   transition: 0.4s;
@@ -169,7 +169,7 @@
 
 #sidebar ul {
   position: relative;
-  margin-top: 50px;
+  margin-top: 80px;
 }
 
 #sidebar ul li {
