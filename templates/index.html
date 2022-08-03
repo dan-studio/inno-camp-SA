@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="/static/css/style.css">
-  <title>찾아봐tHub</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <title>찾아봐tHub</title>
 </head>
+
 <body>
-  <div>
-    <input type="text" name="" id="id">
-    <input type="password" name="" id="pw">
-    <button onclick="signup()" type="button">회원가입</button>
-  </div>
-<script src="/static/js/app.js"></script>
+    <div>
+      <input type="text" name="" id="id">
+      <input type="password" name="" id="pw">
+      <button onclick="signup()" type="button">회원가입</button>
+    </div>
+
+    <div class="commentsWrap">
+        <div id="commentsWrap">
+        </div>
+        <article class="media">
+            <div class="media-content">
+                <div class="field">
+                    <p class="control">
+                        <textarea class="textarea" id="comments" placeholder="Add a comment..."></textarea>
+                    </p>
+                </div>
+                <nav class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <a class="button is-info" onclick="comments()">작성</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </article>
+    </div>
 </body>
 </html>
