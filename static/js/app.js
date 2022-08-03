@@ -46,7 +46,7 @@ function show_card() {
 
 function openmodal(num) {
 
-    // 댓글 불러오기
+    // 모달이 열릴 때 댓글 불러오기
     $(document).ready(function () {
         $('#commentsList').empty()
         listComments(num);
@@ -166,40 +166,29 @@ function listComments(num) {
                 let username = rows[i]['username']
                 let cardId = rows[i]['cardId']
 
-                let temp_html = `
-                    <h5><li>${username} : ${comment}</li></h5>
-                    <input type="hidden" value="${username}" id="userNameOfComments">
-                `
-                $('#commentsList').append(temp_html)
-
+                let temp_html1 = `<h5><li>${username} : ${comment}</li></h5>`
+                let userNameOfToken = $('#userNameOfToken').val()
+                if(userNameOfToken == username) {
+                    temp_html1 += `<button onclick="delComments('${cid}')">삭제</button>`
+                }
+                $('#commentsList').append(temp_html1)
             }
-            // 토큰닉네임이랑 댓글닉네임 비교
-            // $(document).ready(function () {
-            //     let a = $('#userNameOfToken').val()
-            //     let b = $('#userNameOfComments').val()
-            //     console.log(a, b)
-            //     if (a != b) {
-            //         $('#delButton').remove()
-            //     }
-            //
-            // });
         }
     });
 }
 
-// // 댓글 삭제
-// function delComments(cid) {
-//     // console.log(cid)
-//     $.ajax({
-//         type: "POST",
-//         url: "/delComments",
-//         data: {cid_give: cid},
-//         success: function (response) {
-//             alert(response["msg"])
-//             window.location.reload()
-//         }
-//     });
-// }
+// 댓글 삭제
+function delComments(cid) {
+    $.ajax({
+        type: "POST",
+        url: "/delComments",
+        data: {cid_give: cid},
+        success: function (response) {
+            alert(response["msg"])
+            window.location.reload()
+        }
+    });
+}
 
 // 댓글 작성
 function comments() {

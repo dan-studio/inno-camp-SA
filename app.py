@@ -249,16 +249,16 @@ def listComments():
     comments_list = list(db.comments.find({'cardId':cardId_receive}))
     return jsonify({'list': dumps(comments_list)})
 
-# # 댓글 삭제
-# @app.route('/delComments', methods=['POST'])
-# def delComments():
-#     cid_receive = request.form['cid_give']
-#     doc = {
-#         # str로 넘어온 cid값을 다시 ObjectId로 변환
-#         '_id': ObjectId(cid_receive)
-#     }
-#     db.comments.delete_one(doc)
-#     return jsonify({'msg': '삭제 완료!'})
+# 댓글 삭제
+@app.route('/delComments', methods=['POST'])
+def delComments():
+    cid_receive = request.form['cid_give']
+    doc = {
+        # str로 넘어온 cid값을 다시 ObjectId로 변환
+        '_id': ObjectId(cid_receive)
+    }
+    db.comments.delete_one(doc)
+    return jsonify({'msg': '삭제 완료!'})
 
 
 # 댓글 작성
