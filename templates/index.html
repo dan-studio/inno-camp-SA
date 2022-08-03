@@ -47,7 +47,7 @@
                     <div id="modal">
                         <h1></h1>
                     </div>
-                    <div style="padding-top: 20px;">
+                    <div style="padding-top: 20px;" id="commentWrap">
                         <h3>댓글</h3>
                         <hr>
                         <ul id="commentsList">
@@ -115,6 +115,7 @@
         <ul>
             {%if token_receive%}
             <li id="loggedIn">{{username}}님 환영합니다!!</li>
+            <input type="hidden" value="{{username}}" id="userNameOfToken">
             <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
             {%else%}
             <li><a href="/login">Login</a></li>

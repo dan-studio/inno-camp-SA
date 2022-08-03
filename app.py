@@ -38,6 +38,7 @@ from bson import ObjectId
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
+    print(token_receive)
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.account.find_one({'id': payload['id']})
@@ -232,24 +233,22 @@ def card_save():
     return jsonify({'msg': "저장완료"})
 
 # 댓글 조회
-@app.route('/getComments', methods=['GET'])
-def getComments():
-    comments_list = list(db.comments.find({}))
-    print(dumps(comments_list))
-    # TypeError: Object of type ObjectId is not JSON serializable 에러를 해결하기 위해 dumps 사용
+@app.route('/listComments', methods=['POST'])
+def listComments():
+    cardId_receive = request.form['cardId_give']
+    comments_list = list(db.comments.find({'cardId':cardId_receive}))
     return jsonify({'list': dumps(comments_list)})
 
-
-# 댓글 삭제
-@app.route('/delComments', methods=['POST'])
-def delComments():
-    cid_receive = request.form['cid_give']
-    doc = {
-        # str로 넘어온 cid값을 다시 ObjectId로 변환
-        '_id': ObjectId(cid_receive)
-    }
-    db.comments.delete_one(doc)
-    return jsonify({'msg': '삭제 완료!'})
+# # 댓글 삭제
+# @app.route('/delComments', methods=['POST'])
+# def delComments():
+#     cid_receive = request.form['cid_give']
+#     doc = {
+#         # str로 넘어온 cid값을 다시 ObjectId로 변환
+#         '_id': ObjectId(cid_receive)
+#     }
+#     db.comments.delete_one(doc)
+#     return jsonify({'msg': '삭제 완료!'})
 
 
 # 댓글 작성
@@ -268,13 +267,3 @@ def comments():
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글 작성 완료!'})
 
-
-# 댓글 수정
-@app.route('/editComments', methods=['POST'])
-def editComments():
-    sample_receive = request.form['sample_give']
-    return jsonify({'msg': 'POST 요청 완료!'})
-
-
-if __name__ == '__main__':
-    app.run('0.0.0.0', PORT, debug=True)

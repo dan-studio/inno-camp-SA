@@ -46,10 +46,10 @@ function show_card() {
 
 function openmodal(num) {
 
+    // 댓글 불러오기
     $(document).ready(function () {
         $('#commentsList').empty()
-        console.log(num)
-        getComments();
+        listComments(num);
     });
 
   $('#modal').empty()
@@ -68,6 +68,8 @@ function openmodal(num) {
       let desc = cardlist['desc']
       let url = cardlist['url']
       let image = cardlist['image']
+
+      // 모달 열릴 때 댓글박스 html 태그 변수
       let temp_commentBox = `
         <input type="text" class="form-control" id="commentInput" placeholder="내용을 입력하세요"
         aria-label="내용을 입력하세요" aria-describedby="button-addon2" style="margin-right: 15px;">
@@ -90,12 +92,15 @@ function openmodal(num) {
   })
 }
 
+// 댓글 입력 취소용
 function deleteCommentBox() {
     $('#commentInput').remove()
 }
 
 function savecard() {
   $('#modal').empty()
+  $('#commentWrap').empty();
+  $('#commentBox').remove();
   let temp_html = `<div >
                         <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon1">글제목</span>
@@ -148,47 +153,53 @@ function savedata() {
 }
 
 // 댓글 조회
-
-
-function getComments() {
+function listComments(num) {
     $.ajax({
-        type: "GET",
-        url: "/getComments",
-        data: {},
+        type: "POST",
+        url: "/listComments",
+        data: {cardId_give: num},
         success: function (response) {
-
             let rows = JSON.parse(response['list'])
-
             for (let i = 0; i < rows.length; i++) {
                 let comment = rows[i]['comments']
                 let cid = rows[i]['_id']['$oid']
                 let username = rows[i]['username']
                 let cardId = rows[i]['cardId']
-                console.log(comment+"/"+cid+"/"+username+"/"+cardId)
 
-                // let temp_html = `
-                //     <h5><li>${username} : ${comment}</li></h5>
-                // `
-                // $('#commentsList').append(temp_html)
+                let temp_html = `
+                    <h5><li>${username} : ${comment}</li></h5>
+                    <input type="hidden" value="${username}" id="userNameOfComments">
+                `
+                $('#commentsList').append(temp_html)
+
             }
-        }
-    })
-}
-
-
-// 댓글 삭제
-function delComments(cid) {
-    // console.log(cid)
-    $.ajax({
-        type: "POST",
-        url: "/delComments",
-        data: {cid_give: cid},
-        success: function (response) {
-            alert(response["msg"])
-            window.location.reload()
+            // 토큰닉네임이랑 댓글닉네임 비교
+            // $(document).ready(function () {
+            //     let a = $('#userNameOfToken').val()
+            //     let b = $('#userNameOfComments').val()
+            //     console.log(a, b)
+            //     if (a != b) {
+            //         $('#delButton').remove()
+            //     }
+            //
+            // });
         }
     });
 }
+
+// // 댓글 삭제
+// function delComments(cid) {
+//     // console.log(cid)
+//     $.ajax({
+//         type: "POST",
+//         url: "/delComments",
+//         data: {cid_give: cid},
+//         success: function (response) {
+//             alert(response["msg"])
+//             window.location.reload()
+//         }
+//     });
+// }
 
 // 댓글 작성
 function comments() {
