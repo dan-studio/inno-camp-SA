@@ -81,7 +81,8 @@ function openmodal(num) {
 
       $('#staticBackdropLabel').text(short_title)
       $('#modal').append(temp_html)
-      $('.modal-footer').append(delete_html)
+      $('#delete').empty()
+      $('#delete').append(delete_html)
     }
   })
 }
@@ -139,7 +140,9 @@ function savedata() {
   })
 }
 function cardDelete(num) {
-  $.ajax({
+  let msg = confirm("정말 삭제하시겠습니까?")
+  if (msg) {
+    $.ajax({
     type: "POST",
     url: `/carddelete`,
     data: {
@@ -150,4 +153,6 @@ function cardDelete(num) {
       window.location.href = "/"
     }
   });
+  }
+
 }
