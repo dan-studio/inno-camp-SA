@@ -112,7 +112,6 @@ function savecard() {
                               <span class="input-group-text">설명을 해주세요</span>
                               <textarea class="form-control" aria-label="With textarea" id="save_comment"></textarea>
                             </div>
-                        <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
 </div> `
   $('#modal').append(temp_html)
   $('#staticBackdropLabel').text('추가해tHub')
@@ -156,3 +155,102 @@ function cardDelete(num) {
   }
 
 }
+function search() {
+	$("#card_list").empty();
+	let word = $("#input-title").val();
+	console.log(word);
+	$.ajax({
+		type: "GET",
+		url: "/showcard",
+		data: { short_title: word },
+		success: function (response) {
+			let cardlist = response["all_card"];
+			console.log(cardlist);
+			for (let i = 0; i < cardlist.length; i++) {
+				let num = cardlist[i]["num"];
+				let comment = cardlist[i]["comment"];
+				let short_title = cardlist[i]["short_title"];
+				let image = cardlist[i]["image"];
+				let temp_html = `<div class="col">
+                                            <div class="card h-100">
+                                                <img src="${image}" class="card-img-top in_card_image" alt="사진 없습니다">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})">${short_title}</h5>
+                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${comment}</p>
+                                                </div>
+                                            </div>
+                                        </div>`;
+				if (short_title.includes(word)) {
+					$("#card_list").append(temp_html);
+				}
+			}
+		},
+	});
+}
+
+// 페이진 네이션
+
+// let totalData
+// let dataPerPage
+// let PageCount = 5;
+// let globalCurrentPage = 1;
+
+// function paging(totalData, dataPerPage, currentPage) {
+//     console.log("currentPage : " currentPage);
+
+//     totalPage = Math.ceil(totalData / dataPerPage);
+//     if(totalPage < PageCount) {
+//         PageCount = totalPage;
+//     }
+
+//     let pageGroup = MAth.ceil(currentPage / pageCount)
+//     let last = pageGrop * pageCount;
+
+//     if(last > totalPage {
+//         last = totalPage
+//     })
+
+//     let first = last - (pageCount - 1)
+//     let next = last + 1
+//     let prev = first - 1
+
+//     let pageHtml = "";
+//     if (prev > 0) {
+//         pageHtml +=  "<li><a href='#' id='prev'> 이전 </a></li>"
+//     }
+//      //페이징 번호 표시 
+//   for (var i = first; i <= last; i++) {
+//     if (currentPage == i) {
+//       pageHtml +=
+//         "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
+//     } else {
+//       pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
+//     }
+//   }
+
+//   if (last < totalPage) {
+//     pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
+//   }
+
+//   $("#pagingul").html(pageHtml);
+//   let displayCount = "";
+//   displayCount = "현재 1 - " + totalPage + " 페이지 / " + totalData + "건";
+//   $("#displayCount").text(displayCount);
+
+
+//   //페이징 번호 클릭 이벤트 
+//   $("#pagingul li a").click(function () {
+//     let $id = $(this).attr("id");
+//     selectedPage = $(this).text();
+
+//     if ($id == "next") selectedPage = next;
+//     if ($id == "prev") selectedPage = prev;
+    
+//     //전역변수에 선택한 페이지 번호를 담는다...
+//     globalCurrentPage = selectedPage;
+//     //페이징 표시 재호출
+//     paging(totalData, dataPerPage, pageCount, selectedPage);
+//     //글 목록 표시 재호출
+//     displayData(selectedPage, dataPerPage);
+//   });
+// }
