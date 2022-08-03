@@ -135,7 +135,7 @@ function signup() {
   }
   $.ajax({
     type: "POST",
-    url: "/api/signup",
+    url: "/signup",
     data: {
       username_give: username,
       id_give: id,

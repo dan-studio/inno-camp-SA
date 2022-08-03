@@ -218,11 +218,17 @@
   color: black
 }
 
-.commentsWrap{
-  width: 700px;
-  margin:0 auto;
-}
+/*.commentsWrap{*/
+/*  width: 700px;*/
+/*  margin:0 auto;*/
+/*}*/
 
-.control > textarea{
-  resize: none;
-  margin-top: 25px;
+/*.control > textarea{*/
+/*  resize: none;*/
+/*  margin-top: 25px;*/
+
+#commentBox{
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+}

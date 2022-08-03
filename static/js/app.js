@@ -45,6 +45,13 @@ function show_card() {
 }
 
 function openmodal(num) {
+
+    $(document).ready(function () {
+        $('#commentsList').empty()
+        console.log(num)
+        getComments();
+    });
+
   $('#modal').empty()
 
   $.ajax({
@@ -61,6 +68,11 @@ function openmodal(num) {
       let desc = cardlist['desc']
       let url = cardlist['url']
       let image = cardlist['image']
+      let temp_commentBox = `
+        <input type="text" class="form-control" id="commentInput" placeholder="내용을 입력하세요"
+        aria-label="내용을 입력하세요" aria-describedby="button-addon2" style="margin-right: 15px;">
+        <input type="hidden" value="${num}" id="numOfCard">
+      `
       let temp_html = `<div>
                                   <img src="${image}" class="card-img-top in_modal_image" alt="...">
                                   <div class="card-body">
@@ -69,18 +81,17 @@ function openmodal(num) {
                                     <p class="card-text">${desc}</p>
                                     <a href="${url}" target="_blank" class="btn btn-primary">페이지로 이동</a>
                                   </div>
-                                  <div><h3>댓글</h3>
-                                  <hr>
-                                  <ul>
-                                  <li> </li>
-                                    </ul>
-                                  </div>
                                 </div>`
 
       $('#staticBackdropLabel').text(short_title)
       $('#modal').append(temp_html)
+      $('#commentBox').prepend(temp_commentBox)
     }
   })
+}
+
+function deleteCommentBox() {
+    $('#commentInput').remove()
 }
 
 function savecard() {
@@ -137,9 +148,7 @@ function savedata() {
 }
 
 // 댓글 조회
-$(document).ready(function () {
-    getComments();
-});
+
 
 function getComments() {
     $.ajax({
@@ -147,36 +156,20 @@ function getComments() {
         url: "/getComments",
         data: {},
         success: function (response) {
-            // list에서 넘어온 str 값을 다시 dictionary 형식으로 변경
 
             let rows = JSON.parse(response['list'])
 
             for (let i = 0; i < rows.length; i++) {
                 let comment = rows[i]['comments']
                 let cid = rows[i]['_id']['$oid']
+                let username = rows[i]['username']
+                let cardId = rows[i]['cardId']
+                console.log(comment+"/"+cid+"/"+username+"/"+cardId)
 
-                // 게시물들의 cid와 cid 타입 확인
-                // console.log(cid + ' // ' + typeof (cid))
-
-                let temp_html = `
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <strong>John Smith</strong> <small>@johnsmith</small>
-                                    <br>
-                                    ${comment}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="media-right">
-                            <button id="editBox" class="button is-small is-rounded" onclick="">수정</button>
-                            <button id="editComBox" class="button is-small is-rounded is-hidden" onclick="">완료</button>
-                            <button class="button is-small is-danger is-light is-rounded" onclick="delComments('${cid}')">삭제</button>
-                        </div>
-                    </article>
-                `
-                $('#commentsWrap').append(temp_html)
+                // let temp_html = `
+                //     <h5><li>${username} : ${comment}</li></h5>
+                // `
+                // $('#commentsList').append(temp_html)
             }
         }
     })
@@ -199,16 +192,17 @@ function delComments(cid) {
 
 // 댓글 작성
 function comments() {
-    let comments = $('#comments').val()
-    // let id = $('#id').val()
-    // let cardId = $('#cardId').val()
+    let comments = $('#commentInput').val()
+    let username = $('#commentUserName').val()
+    let cardId = $('#numOfCard').val()
+    console.log(comments+" / "+username+" / "+cardId)
     $.ajax({
         type: "POST",
         url: "/comments",
         data: {
             comments_give: comments,
-            // id_give: id,
-            // cardId_give: cardId
+            username_give: username,
+            cardId_give: cardId
         },
         success: function (response) {
             alert(response["msg"])

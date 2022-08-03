@@ -31,6 +31,9 @@ import datetime
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
 import hashlib
 
+from bson.json_util import dumps
+from bson import ObjectId
+
 
 @app.route('/')
 def home():
@@ -232,7 +235,7 @@ def card_save():
 @app.route('/getComments', methods=['GET'])
 def getComments():
     comments_list = list(db.comments.find({}))
-
+    print(dumps(comments_list))
     # TypeError: Object of type ObjectId is not JSON serializable 에러를 해결하기 위해 dumps 사용
     return jsonify({'list': dumps(comments_list)})
 
@@ -253,14 +256,13 @@ def delComments():
 @app.route('/comments', methods=['POST'])
 def comments():
     comments_receive = request.form['comments_give']
-
-    # id_receive = request.form['id_give']
-    # cardId_receive = request.form['cardId_give']
+    username_receive = request.form['username_give']
+    cardId_receive = request.form['cardId_give']
 
     doc = {
         'comments': comments_receive,
-        # "id": id_receive
-        # "cardId": cardId_receive
+        'username': username_receive,
+        'cardId': cardId_receive
     }
 
     db.comments.insert_one(doc)

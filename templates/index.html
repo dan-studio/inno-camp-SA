@@ -47,9 +47,23 @@
                     <div id="modal">
                         <h1></h1>
                     </div>
+                    <div style="padding-top: 20px;">
+                        <h3>댓글</h3>
+                        <hr>
+                        <ul id="commentsList">
+                        </ul>
+                    </div>
                 </div>
+                {%if token_receive%}
+                <div class="input-group mb-3" id="commentBox">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="comments()">작성</button>
+                        <input type="hidden" value="{{username}}" id="commentUserName">
+                    </div>
+                </div>
+                {%endif%}
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteCommentBox()">Close</button>
                 </div>
             </div>
         </div>
