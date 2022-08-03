@@ -121,7 +121,7 @@
     <div id="sidebar">
         <ul>
             {%if token_receive%}
-            <li id="loggedIn">{{username}}님 환영합니다!!</li>
+            <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ userid }}">{{username}}님 환영합니다!!</a> </li>
             <input type="hidden" value="{{username}}" id="userNameOfToken">
             <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
             {%else%}
