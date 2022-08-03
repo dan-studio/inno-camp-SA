@@ -21,6 +21,7 @@
     <!-- External CSS -->
     <link type="text/css" rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image" href="/static/images/fav2.png">
+    <title>찾아봤tHub</title>
 </head>
 
 <body>
@@ -39,7 +40,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="modal">
-                        <h1>될까</h1>
+                        <h1></h1>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -51,7 +52,7 @@
     <div class="main_title">
         <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
     </div>
-    <div id="page-title"><h1>Websites</h1></div>
+    <div id="page-title"><h1>MyPosts</h1></div>
     <div class="search_box">
         <form class="search_box">
             <input type="text" class="search_bar" placeholder="무엇을 찾고싶은가요?">
@@ -59,13 +60,14 @@
         </form>
     </div>
     {%if token_receive%}
-    <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            onclick="savecard()" value="추가해tHub">
+    <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="savecard()"
+        value="추가해tHub">
     </div>
-    {%endif%}
+        {%endif%}
     <div>
         <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
-            {% for card in site_card %}
+            {% if status %}
+            {% for card in user_info %}
             {% set short_title =card['short_title'] %}
             {% set image = card['image']%}
             {% set comment = card['comment'] %}
@@ -76,13 +78,14 @@
                     <img src="{{ image }}" class="card-img-top in_card_image" alt="...">
                     <div class="card-body">
                         <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                            onclick="openmodal({{ num }})">{{ short_title }}</h5>
+                           onclick="openmodal({{ num }})">{{ short_title }}</h5>
                         <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                            onclick="openmodal({{ num }})" id="show">{{comment}}</p>
+                           onclick="openmodal({{ num }})" id="show">{{comment}}</p>
                     </div>
                 </div>
             </div>
             {% endfor %}
+        {% endif %}
         </div>
     </div>
     <div class="pagination">
@@ -110,12 +113,12 @@
     <div id="toggle"></div>
     <div id="sidebar">
         <ul>
-            {%if token_receive%}
-            <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a></li>
-            <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
-            {%else%}
-            <li><a href="/login">Login</a></li>
-            {%endif%}
+              {%if token_receive%}
+              <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a></li>
+              <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
+              {%else%}
+              <li><a href="/login">Login</a></li>
+              {%endif%}
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -125,5 +128,4 @@
     <script src="/static/js/account.js"></script>
     <script src="../static/js/app.js"></script>
 </body>
-
 </html>
