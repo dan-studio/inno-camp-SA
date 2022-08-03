@@ -135,3 +135,11 @@ function savedata() {
     }
   })
 }
+function cf(){
+  let message = confirm('정말로 삭제하시겠습니까?')
+  if(message){
+    alert('yes')
+  }else{
+    alert('no')
+  }
+}
