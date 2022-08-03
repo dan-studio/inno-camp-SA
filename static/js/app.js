@@ -137,11 +137,20 @@ function savedata() {
     }
   })
 }
-function cf(){
-  let message = confirm('정말로 삭제하시겠습니까?')
-  if(message){
-    alert('yes')
-  }else{
-    alert('no')
+function cardDelete(num) {
+  let msg = confirm("정말 삭제하시겠습니까?")
+  if (msg) {
+    $.ajax({
+    type: "POST",
+    url: `/carddelete`,
+    data: {
+      num_give: num
+    },
+    success: function (response) {
+      alert(response["msg"])
+      window.location.href = "/"
+    }
+  });
   }
+
 }
