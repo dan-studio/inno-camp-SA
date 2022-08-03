@@ -75,7 +75,7 @@
 .card_box {
   max-width: 1600px;
   width: 90%;
-  height: 1000px;
+  height: 700px;
   margin: auto;
 }
 
@@ -92,21 +92,20 @@
 .col {
   font-size: medium;
   display: block;
-  max-height: 400px;
-  height: 50%;
+  height: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-
 }
-
+.col .card img{
+  object-fit: cover;
+}
 .in_modal_image {
   width: 100%;
   max-width: 1000px;
   height: 500px;
   margin: auto;
 }
-
 #toggle {
   position: fixed;
   top: 20px;
