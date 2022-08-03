@@ -241,3 +241,39 @@ def cardDelete():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', PORT, debug=True)
+
+# 댓글 조회
+@app.route('/listComments', methods=['POST'])
+def listComments():
+    cardId_receive = request.form['cardId_give']
+    comments_list = list(db.comments.find({'cardId':cardId_receive}))
+    return jsonify({'list': dumps(comments_list)})
+
+# # 댓글 삭제
+# @app.route('/delComments', methods=['POST'])
+# def delComments():
+#     cid_receive = request.form['cid_give']
+#     doc = {
+#         # str로 넘어온 cid값을 다시 ObjectId로 변환
+#         '_id': ObjectId(cid_receive)
+#     }
+#     db.comments.delete_one(doc)
+#     return jsonify({'msg': '삭제 완료!'})
+
+
+# 댓글 작성
+@app.route('/comments', methods=['POST'])
+def comments():
+    comments_receive = request.form['comments_give']
+    username_receive = request.form['username_give']
+    cardId_receive = request.form['cardId_give']
+
+    doc = {
+        'comments': comments_receive,
+        'username': username_receive,
+        'cardId': cardId_receive
+    }
+
+    db.comments.insert_one(doc)
+    return jsonify({'msg': '댓글 작성 완료!'})
+

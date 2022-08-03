@@ -48,6 +48,23 @@
                     <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <div id="delete"></div>
+                    <div style="padding-top: 20px;" id="commentWrap">
+                        <h3>댓글</h3>
+                        <hr>
+                        <ul id="commentsList">
+                        </ul>
+                    </div>
+                </div>
+                {%if token_receive%}
+                <div class="input-group mb-3" id="commentBox">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="comments()">작성</button>
+                        <input type="hidden" value="{{username}}" id="commentUserName">
+                    </div>
+                </div>
+                {%endif%}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteCommentBox()">Close</button>
                 </div>
             </div>
         </div>
@@ -55,9 +72,12 @@
     <div class="main_title">
         <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
     </div>
+    {%if token_receive%}
+    {%else%}
     <div id="info">
         <h6>🚨 모든 기능을 이용하시려면 로그인을 해주세요 🚨</h6>
     </div>
+    {%endif%}
     <div class="search_box">
         <!-- <form class="search_box"> -->
         <input id="input-title" type="text" class="search_bar" placeholder="무엇을 찾고싶은가요?" />
@@ -101,7 +121,8 @@
     <div id="sidebar">
         <ul>
             {%if token_receive%}
-            <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ username }}">{{username}}님 환영합니다!!</a> </li>
+            <li id="loggedIn">{{username}}님 환영합니다!!</li>
+            <input type="hidden" value="{{username}}" id="userNameOfToken">
             <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
             {%else%}
             <li><a href="/login">Login</a></li>
