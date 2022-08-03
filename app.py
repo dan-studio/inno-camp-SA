@@ -189,12 +189,13 @@ def card_save():
             'desc': desc,
             'type': type_receive,
             'comment': comment_receive,
-            'num': number
+            'num': number,
+            'url': url_receive
         }
         db.cardlist.insert_one(doc)
 
     except:
-        title = soup.select_one('head > title').text
+        title = short_title_receive
         image = soup.select_one(f'meta[property="og:image"]')['content']
         desc = '내용 요약은 따로 없습니다'
         number = int(uniform(1.0, 10.0) * 10000000000)
@@ -205,7 +206,8 @@ def card_save():
             'desc': desc,
             'type': type_receive,
             'comment': comment_receive,
-            'num': number
+            'num': number,
+            'url': url_receive
         }
         db.cardlist.insert_one(doc)
     return jsonify({'msg': "저장완료"})

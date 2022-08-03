@@ -14,6 +14,7 @@ document.onclick = function (e) {
 }
 
 function show_card() {
+
   $.ajax({
     type: "GET",
     url: "/showcard",
@@ -23,7 +24,7 @@ function show_card() {
       for (let i = 0; i < cardlist.length; i++) {
         let num = cardlist[i]['num']
         let title = cardlist[i]['short_title']
-        let desc = cardlist[i]['desc']
+        let comment = cardlist[i]['comment']
         let url = cardlist[i]['url']
         let image = cardlist[i]['image']
         let temp_html = `<div class="col">
@@ -31,12 +32,13 @@ function show_card() {
                                                 <img src="${image}" class="card-img-top in_card_image" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})">${title}</h5>
-                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${desc}</p>
+                                                    <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${comment}</p>
                                                 </div>
                                             </div>
                                         </div>`
 
         $('#card_list').append(temp_html)
+
       }
     }
   })
@@ -44,6 +46,7 @@ function show_card() {
 
 function openmodal(num) {
   $('#modal').empty()
+
   $.ajax({
     type: "POST",
     url: "/openmodal",
@@ -52,7 +55,8 @@ function openmodal(num) {
     },
     success: function (response) {
       let cardlist = response['select_card']
-      let num = cardlist['num']
+      let comment = cardlist['comment']
+      let short_title = cardlist['short_title']
       let title = cardlist['title']
       let desc = cardlist['desc']
       let url = cardlist['url']
@@ -61,8 +65,9 @@ function openmodal(num) {
                                   <img src="${image}" class="card-img-top in_modal_image" alt="...">
                                   <div class="card-body">
                                     <h5 class="card-title">${title}</h5>
+                                    <p class="card-text"> ${comment}</p>
                                     <p class="card-text">${desc}</p>
-                                    <a href="${url}" class="btn btn-primary">페이지로 이동</a>
+                                    <a href="${url}" target="_blank" class="btn btn-primary">페이지로 이동</a>
                                   </div>
                                   <div><h3>댓글</h3>
                                   <hr>
@@ -72,7 +77,7 @@ function openmodal(num) {
                                   </div>
                                 </div>`
 
-      $('#staticBackdropLabel').text(title)
+      $('#staticBackdropLabel').text(short_title)
       $('#modal').append(temp_html)
     }
   })
@@ -82,7 +87,7 @@ function savecard() {
   $('#modal').empty()
   let temp_html = `<div >
                         <div class="input-group mb-3">
-                          <span class="input-group-text" id="basic-addon1">이름</span>
+                          <span class="input-group-text" id="basic-addon1">글제목</span>
                           <input type="text" id="short_title" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                        </div> 
                        <div class="input-group mb-3">
@@ -105,8 +110,8 @@ function savecard() {
                             </div>
                         <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
 </div> `
-
   $('#modal').append(temp_html)
+  $('#staticBackdropLabel').text('추가해tHub')
 }
 
 function savedata() {
