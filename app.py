@@ -1,4 +1,3 @@
-import json
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import certifi
@@ -40,6 +39,56 @@ def signup():
 
     return jsonify({'msg': '회원가입이 완료되었습니다!'})
 
+@app.route("/website", methods=["GET"])
+def site():
+    all_card = list(db.cardlist.find({'type':'website'},{'_id':False}))
+    return render_template('website.html', site_card=all_card)
+
+@app.route("/showcard", methods=["GET"])
+def card_get():
+    all_card = list(db.cardlist.find({},{'_id':False}))
+    print(all_card)
+    return jsonify({'all_card':all_card})
+
+@app.route("/openmodal", methods=["POST"])
+def card_open():
+    num_receive = request.form['num_give']
+    user = db.cardlist.find_one({'num':int(num_receive)},{'_id':False})
+    return jsonify({'select_card':user})
+
+@app.route("/save_card", methods=["POST"])
+def card_save():
+    short_title_receive = request.form['short_title_give']
+    type_receive = request.form['type_give']
+    url_receive = request.form['url_give']
+    comment_receive = request.form['comment_give']
+
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) ''Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url_receive, headers=headers)
+
+    soup = BeautifulSoup(data.text, 'html.parser')
+
+    title = soup.select_one(f'meta[property="og:title"]')['content']
+    image = soup.select_one(f'meta[property="og:image"]')['content']
+    desc = soup.select_one(f'meta[property="og:description"]')['content']
+
+    from random import uniform
+
+    # Random float:  2.5 <= x <= 10.0
+    number = int(uniform(1.0, 10.0)*10000000000)
+
+
+    doc = {
+        'short_title':short_title_receive,
+        'title': title,
+        'image': image,
+        'desc': desc,
+        'type': type_receive,
+        'comment':comment_receive,
+        'num':number
+    }
+    db.cardlist.insert_one(doc)
+    return jsonify({'msg': "저장완료"})
 
 @app.route('/search')
 def search():

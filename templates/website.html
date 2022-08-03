@@ -32,31 +32,12 @@
 
 		<title>찾아봐tHub</title>
 		<link rel="stylesheet" href="../static/css/style.css" />
-
-		<script>
-			$(document).ready(function () {
-				show_card();
-			});
-		</script>
-		<script>
-			// let title = {{ title|tojson }};
-			// let title_list = [];
-			// for (let i=0; i<title.length; i++){
-			//      title_list.push(title[i]["title"])
-			// }
-			// consol.log(title_list)
-
-			//          function search () {
-			//                  let word = $("#input-title").val()
-			//                  if (title_list.includes(word)) {
-			//                      console.log(title)
-			//                  } else {
-			//                      console.log('hi')
-			//                  }
-			//              }
-		</script>
 	</head>
 	<body>
+		<!-- Button trigger modal -->
+
+		<!-- Modal -->
+
 		<div
 			class="modal fade"
 			id="staticBackdrop"
@@ -78,7 +59,7 @@
 						></button>
 					</div>
 					<div class="modal-body">
-						<div id="modal"><h1></h1></div>
+						<div id="modal"><h1>될까</h1></div>
 					</div>
 					<div class="modal-footer">
 						<button
@@ -98,33 +79,52 @@
 		<div class="search_box">
 			<form class="search_box">
 				<input
-					id="input-title"
 					type="text"
 					class="search_bar"
 					placeholder="무엇을 찾고싶은가요?"
 				/>
-				<input
-					type="submit"
-					class="search_btn"
-					onclick="search()"
-					value="검색"
-				/>
+				<input type="submit" class="search_btn" value="검색" />
 			</form>
 		</div>
-		<div>
-			<button
-				data-bs-toggle="modal"
-				data-bs-target="#staticBackdrop"
-				onclick="savecard()"
-			>
-				추가를 해보자
-			</button>
-		</div>
+
 		<div>
 			<div
 				class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box"
 				id="card_list"
-			></div>
+			>
+				{% for card in site_card %} {% set short_title =card['short_title'] %}
+				{% set image = card['image']%} {% set comment = card['comment'] %} {%
+				set num = card['num']%} {% set url =card['url'] %}
+				<div class="col">
+					<div class="card h-100">
+						<img
+							src="{{ image }}"
+							class="card-img-top in_card_image"
+							alt="..."
+						/>
+						<div class="card-body">
+							<h5
+								class="card-title"
+								data-bs-toggle="modal"
+								data-bs-target="#staticBackdrop"
+								onclick="openmodal({{ num }})"
+							>
+								{{ short_title }}
+							</h5>
+							<p
+								class="card-text"
+								data-bs-toggle="modal"
+								data-bs-target="#staticBackdrop"
+								onclick="openmodal({{ num }})"
+								id="show"
+							>
+								{{comment}}
+							</p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
 		</div>
 		<div class="pagination">
 			<nav aria-label="Page navigation example">
