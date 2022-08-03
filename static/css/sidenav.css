@@ -1,0 +1,120 @@
+#toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  transition: .5s
+}
+#toggle::before {
+  content: "";
+  position: absolute;
+  width: 28px;
+  height: 3px;
+  background: #333;
+  transform: translateY(-5px);
+  transition: 0.2s;
+}
+#toggle::after {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 3px;
+    background: #333;
+    transform: translateY(5px);
+    transition: 0.2s;
+}
+#toggle.active::before {
+  transform: translateY(0px) rotate(45deg);
+  background: #888;
+}
+
+#toggle.active::after {
+  transform: translateY(0px) rotate(-45deg);
+  background: #888;
+}
+#sidebar {
+    position: fixed;
+    top: 0;
+    transform: translateX(0px);
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: transparent;
+    transition: 0.4s;
+    z-index: 1;
+    font-family: 'Orbitron', sans-serif;
+}#sidebar.active {
+  transform: translateX(-300px);
+}
+
+#sidebar ul {
+  position: relative;
+  margin-top: 50px;
+}
+
+#sidebar ul li {
+  list-style: none;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 40px;
+}
+
+#sidebar ul li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+}.dropdown .dropbtn {
+  color: #333;
+  font-size: 1.5em;
+  border: none;
+  outline: none;
+  background-color: white;
+  margin: -9px;
+}
+
+#sidebar ul li a:hover {
+  color: #333;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  right: 100%;
+  top: 1px;
+}
+.nav-link{
+  color: black
+}
+.nav-link:hover{
+  color: #888
+}
+.txt_field{
+  margin: 15px;
+}
+.txt_field input{
+  float: right;
+  margin-right: 120px;
+}
