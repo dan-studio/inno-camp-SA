@@ -221,10 +221,10 @@ function listComments(num) {
         let username = rows[i]['username']
         let cardId = rows[i]['cardId']
 
-                let temp_html1 = `<li>${username} : ${comment}</li>`
+                let temp_html1 = `<div id="commentdiv"><li>${username} : ${comment}</li>`
                 let userNameOfToken = $('#userNameOfToken').val()
                 if(userNameOfToken == username) {
-                    temp_html1 += `<button onclick="delComments('${cid}')">삭제</button>`
+                    temp_html1 += `<button onclick="delComments('${cid}')">삭제</button></div>`
                 }
                 $('#commentsList').append(temp_html1)
             }
