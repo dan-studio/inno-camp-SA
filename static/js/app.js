@@ -1,33 +1,32 @@
 // sideNav
-const toggle = document.getElementById('toggle');
-const sidebar = document.getElementById('sidebar');
+const toggle = document.getElementById("toggle");
+const sidebar = document.getElementById("sidebar");
 
 toggle.onclick = function () {
   toggle.classList.toggle('active');
   sidebar.classList.toggle('active');
 }
 document.onclick = function (e) {
-  if (e.target.id !== 'sidebar' && e.target.id !== 'toggle') {
-    toggle.classList.remove('active')
-    sidebar.classList.remove('active')
-  }
-}
+	if (e.target.id !== "sidebar" && e.target.id !== "toggle") {
+		toggle.classList.remove("active");
+		sidebar.classList.remove("active");
+	}
+};
 
 function show_card() {
-
-  $.ajax({
-    type: "GET",
-    url: "/showcard",
-    data: {},
-    success: function (response) {
-      let cardlist = response['all_card']
-      for (let i = 0; i < cardlist.length; i++) {
-        let num = cardlist[i]['num']
-        let title = cardlist[i]['short_title']
-        let comment = cardlist[i]['comment']
-        let url = cardlist[i]['url']
-        let image = cardlist[i]['image']
-        let temp_html = `<div class="col">
+	$.ajax({
+		type: "GET",
+		url: "/showcard",
+		data: {},
+		success: function (response) {
+			let cardlist = response["all_card"];
+			for (let i = 0; i < cardlist.length; i++) {
+				let num = cardlist[i]["num"];
+				let title = cardlist[i]["short_title"];
+				let comment = cardlist[i]["comment"];
+				let url = cardlist[i]["url"];
+				let image = cardlist[i]["image"];
+				let temp_html = `<div class="col">
                                             <div class="card h-100">
                                                 <img src="${image}" class="card-img-top in_card_image" alt="...">
                                                 <div class="card-body">
@@ -35,13 +34,12 @@ function show_card() {
                                                     <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openmodal(${num})" id="show" >${comment}</p>
                                                 </div>
                                             </div>
-                                        </div>`
+                                        </div>`;
 
-        $('#card_list').append(temp_html)
-
-      }
-    }
-  })
+				$("#card_list").append(temp_html);
+			}
+		},
+	});
 }
 
 function openmodal(num) {
@@ -127,8 +125,8 @@ function openmodalDel(num) {
         <input type="text" class="form-control" id="commentInput" placeholder="내용을 입력하세요"
         aria-label="내용을 입력하세요" aria-describedby="button-addon2" style="margin-right: 15px;">
         <input type="hidden" value="${num}" id="numOfCard">
-      `
-      let temp_html = `<div>
+      `;
+			let temp_html = `<div>
                                   <img src="${image}" class="card-img-top in_modal_image" alt="...">
                                   <div class="card-body">
                                     <h5 class="card-title">${title}</h5>
@@ -136,7 +134,7 @@ function openmodalDel(num) {
                                     <p class="card-text">${desc}</p>
                                     <a href="${url}" target="_blank" class="btn btn-primary">페이지로 이동</a>
                                   </div>
-                                </div>`
+                                </div>`;
 
       $('#staticBackdropLabel').text(short_title)
       $('#modal').append(temp_html)
