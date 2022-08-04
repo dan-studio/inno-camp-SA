@@ -1,140 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="찾아봐tHub" />
+		<meta
+			property="og:description"
+			content="개발자한테 필요한 오픈소스 사이트와 코딩하다 오류난 부분을 올려 서로 공유하고 문제해결방법을 찾는 사이트입니다"
+		/>
+		<meta property="og:image" content="{''}" />
+		<!-- JQUERY -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<!-- JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Bootstrap CSS-->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- External CSS -->
+		<link type="text/css" rel="stylesheet" href="/static/css/style.css" />
+		<link rel="icon" type="image" href="/static/images/fav2.png" />
+		<script>
+			$(document).ready(function () {
+				show_card();
+			});
+		</script>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="찾아봐tHub" />
-    <meta property="og:description" content="개발자한테 필요한 오픈소스 사이트와 코딩하다 오류난 부분을 올려 서로 공유하고 문제해결방법을 찾는 사이트입니다" />
-    <meta property="og:image" content="{''}">
-    <!-- JQUERY -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap CSS-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-    <!-- External CSS -->
-    <link type="text/css" rel="stylesheet" href="/static/css/style.css">
-    <link rel="icon" type="image" href="/static/images/fav2.png">
-    <script>
-        $(document).ready(function () {
-            show_card();
-
-        });
-    </script>
-</head>
-
-<body>
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">추가해tHub</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="modal">
-                        <h1></h1>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <div id="delete"></div>
-                    <div style="padding-top: 20px;" id="commentWrap">
-                        <h3>댓글</h3>
-                        <hr>
-                        <ul id="commentsList">
-                        </ul>
-                    </div>
-                </div>
-                {%if token_receive%}
-                <div class="input-group mb-3" id="commentBox">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="comments()">작성</button>
-                        <input type="hidden" value="{{username}}" id="commentUserName">
-                    </div>
-                </div>
-                {%endif%}
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteCommentBox()">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="main_title">
-        <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
-    </div>
-    {%if token_receive%}
-    {%else%}
-    <div id="info">
-        <h6>🚨 모든 기능을 이용하시려면 로그인을 해주세요 🚨</h6>
-    </div>
-    {%endif%}
-    <div class="search_box">
-        <!-- <form class="search_box"> -->
-        <input id="input-title" type="text" class="search_bar" placeholder="무엇을 찾고싶은가요?" />
-        <input type="button" class="search_btn" onclick="search()" value="검색" />
-        <!-- </form> -->
-    </div>
-    {%if token_receive%}
-    <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            onclick="savecard()" value="추가해tHub">
-    </div>
-    {%endif%}
-    <div>
-        <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
-
-
-        </div>
-    </div>
-    <div class="pagination">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <div class="modal-dialog modal-fullscreen-sm-down">
-
-    </div>
-    <div id="toggle"></div>
-    <div id="sidebar">
-        <ul>
-            {%if token_receive%}
-            <li id="loggedIn"><a style="font-size: large" href="/mypost/{{ userid }}">{{username}}님 환영합니다!!</a> </li>
-            <input type="hidden" value="{{username}}" id="userNameOfToken">
-            <li id="logout"><a href="#" onclick="signout()">Logout</a></li>
-            {%else%}
-            <li><a href="/login">Login</a></li>
-            {%endif%}
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/website">Website</a></li>
-        </ul>
-    </div>
-    <script src="/static/js/account.js"></script>
-    <script src="/static/js/app.js"></script>
-</body>
-
+	<body>
+		<!-- Modal -->
+		<div
+			class="modal fade"
+			id="staticBackdrop"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel">추가해tHub</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<div id="modal">
+							<h1></h1>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button onclick="savedata()" type="button" class="btn btn-dark">
+							기록하기
+						</button>
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-bs-dismiss="modal"
+						>
+							Close
+						</button>
+						<div id="delete"></div>
+						<div style="padding-top: 20px" id="commentWrap">
+							<h3>댓글</h3>
+							<hr />
+							<ul id="commentsList"></ul>
+						</div>
+					</div>
+					{%if token_receive%}
+					<div class="input-group mb-3" id="commentBox">
+						<div class="input-group-append">
+							<button
+								class="btn btn-outline-secondary"
+								type="button"
+								id="button-addon2"
+								onclick="comments()"
+							>
+								작성
+							</button>
+							<input type="hidden" value="{{username}}" id="commentUserName" />
+						</div>
+					</div>
+					{%endif%}
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-bs-dismiss="modal"
+							onclick="deleteCommentBox()"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main_title">
+			<h1 style="cursor: pointer" onclick="window.location.href='/'">
+				찾아봐tHub
+			</h1>
+		</div>
+		{%if token_receive%} {%else%}
+		<div id="info">
+			<h6>🚨 모든 기능을 이용하시려면 로그인을 해주세요 🚨</h6>
+		</div>
+		{%endif%}
+		<div class="search_box">
+			<!-- <form class="search_box"> -->
+			<input
+				id="input-title"
+				type="text"
+				class="search_bar"
+				placeholder="무엇을 찾고싶은가요?"
+			/>
+			<input type="button" class="search_btn" onclick="search()" value="검색" />
+			<!-- </form> -->
+		</div>
+		{%if token_receive%}
+		<div id="btn_insert">
+			<input
+				type="button"
+				data-bs-toggle="modal"
+				data-bs-target="#staticBackdrop"
+				onclick="savecard()"
+				value="추가해tHub"
+			/>
+		</div>
+		{%endif%}
+		<div>
+			<div
+				class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box"
+				id="card_list"
+			></div>
+		</div>
+		<div class="pagination">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="modal-dialog modal-fullscreen-sm-down"></div>
+		<div id="toggle"></div>
+		<div id="sidebar">
+			<ul>
+				{%if token_receive%}
+				<li id="loggedIn">
+					<a style="font-size: large" href="/mypost/{{ userid }}"
+						>{{username}}님 환영합니다!!</a
+					>
+				</li>
+				<input type="hidden" value="{{username}}" id="userNameOfToken" />
+				<li id="logout"><a href="#" onclick="signout()">Logout</a></li>
+				{%else%}
+				<li><a href="/login">Login</a></li>
+				{%endif%}
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/blog">Blog</a></li>
+				<li><a href="/website">Website</a></li>
+			</ul>
+		</div>
+		<script src="/static/js/account.js"></script>
+		<script src="/static/js/app.js"></script>
+	</body>
 </html>
