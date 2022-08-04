@@ -55,17 +55,6 @@
         <h1 style="cursor: pointer;" onclick="window.location.href='/'">찾아봐tHub</h1>
     </div>
     <div id="page-title"><h1>MyPosts</h1></div>
-    <div class="search_box">
-        <form class="search_box">
-            <input type="text" class="search_bar" placeholder="무엇을 찾고싶은가요?">
-            <input type="submit" class="search_btn" value="검색">
-        </form>
-    </div>
-    {%if token_receive%}
-    <div id="btn_insert"><input type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="savecard()"
-        value="추가해tHub">
-    </div>
-        {%endif%}
     <div>
         <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 card_box" id="card_list">
             {% if status %}
