@@ -259,3 +259,26 @@
   margin: auto;
   color: rgba(58, 148, 238, 0.86);
 }
+#commentdiv{
+  display: inline;
+}
+#commentdiv li{
+  list-style: none;
+}
+#commentdiv button{
+  float: right;
+  border: none;
+  background-color: transparent;
+  color: rgba(246, 59, 46, 0.781);
+  transition: .3s;
+  transform: translateY(-20px);
+  font-size: 12px;
+  margin-right: 20px;
+}
+#commentdiv button:hover{
+  color: #888;
+}
+#commentBox{
+  width: 90%;
+  margin: auto;
+}
