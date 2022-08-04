@@ -259,3 +259,18 @@
   margin: auto;
   color: rgba(58, 148, 238, 0.86);
 }
+
+#commentsList li{
+  list-style: none;
+}
+#commentsList button{
+  position: absolute;
+  transform: translateY(-24px) translateX(400px);
+  border: none;
+  background-color: transparent;
+  color: rgba(246, 59, 46, 0.781);
+  transition: .3s;
+}
+#commentsList button:hover{
+  color: #888;
+}

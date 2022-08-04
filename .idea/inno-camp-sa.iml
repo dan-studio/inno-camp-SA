@@ -3,6 +3,10 @@
   <component name="Flask">
     <option name="enabled" value="true" />
   </component>
+  <component name="NewModuleRootManager">
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
     <option name="myDocStringFormat" value="Plain" />
