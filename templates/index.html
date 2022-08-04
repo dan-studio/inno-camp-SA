@@ -43,10 +43,6 @@
                     <div id="modal">
                         <h1></h1>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <div id="delete"></div>
                     <div style="padding-top: 20px;" id="commentWrap">
                         <h3>댓글</h3>
@@ -55,16 +51,21 @@
                         </ul>
                     </div>
                 </div>
+                <div class="modal-footer">
+                </div>
                 {%if token_receive%}
                 <div class="input-group mb-3" id="commentBox">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="comments()">작성</button>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                            onclick="comments()">작성</button>
                         <input type="hidden" value="{{username}}" id="commentUserName">
                     </div>
                 </div>
                 {%endif%}
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteCommentBox()">Close</button>
+                    <button id="newpost" onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        onclick="deleteCommentBox()">Close</button>
                 </div>
             </div>
         </div>

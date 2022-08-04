@@ -233,14 +233,12 @@ def mypost(userid):
     except jwt.exceptions.DecodeError:
         return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
 
+#게시물 삭제
 @app.route("/carddelete", methods=["POST"])
 def cardDelete():
     num_receive = request.form['num_give']
     db.cardlist.delete_one({'num':int(num_receive)})
     return jsonify({'msg': "삭제완료"})
-
-if __name__ == '__main__':
-    app.run('0.0.0.0', PORT, debug=True)
 
 # 댓글 조회
 @app.route('/listComments', methods=['POST'])
@@ -277,3 +275,5 @@ def comments():
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글 작성 완료!'})
 
+if __name__ == '__main__':
+    app.run('0.0.0.0', PORT, debug=True)
