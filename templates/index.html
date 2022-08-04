@@ -51,8 +51,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="modal-footer">
-                </div>
                 {%if token_receive%}
                 <div class="input-group mb-3" id="commentBox">
                     <div class="input-group-append">
@@ -62,6 +60,7 @@
                 </div>
                 {%endif%}
                 <div class="modal-footer">
+                    <button id="newpost" onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteCommentBox()">Close</button>
                 </div>
             </div>

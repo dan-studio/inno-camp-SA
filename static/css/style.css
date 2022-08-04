@@ -259,3 +259,11 @@
   margin: auto;
   color: rgba(58, 148, 238, 0.86);
 }
+
+#commentsList > li {
+}
+
+#commentsList > button {
+  float: right;
+  margin-left: 660px;
+}

@@ -50,6 +50,9 @@ function openmodal(num) {
     $(document).ready(function () {
         $('#commentsList').empty()
         listComments(num);
+        $('#newpost').hide()
+        $('#commentWrap').show();
+        $('#commentBox').show();
     });
 
   $('#modal').empty()
@@ -99,8 +102,9 @@ function deleteCommentBox() {
 
 function savecard() {
   $('#modal').empty()
-  $('#commentWrap').empty();
-  $('#commentBox').remove();
+  $('#newpost').show()
+  $('#commentWrap').hide();
+  $('#commentBox').hide();
   let temp_html = `<div >
                         <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon1">글제목</span>
@@ -124,7 +128,6 @@ function savecard() {
                               <span class="input-group-text">설명을 해주세요</span>
                               <textarea class="form-control" aria-label="With textarea" id="save_comment"></textarea>
                             </div>
-                        <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
 </div> `
   $('#modal').append(temp_html)
   $('#staticBackdropLabel').text('추가해tHub')
@@ -166,7 +169,7 @@ function listComments(num) {
                 let username = rows[i]['username']
                 let cardId = rows[i]['cardId']
 
-                let temp_html1 = `<h5><li>${username} : ${comment}</li></h5>`
+                let temp_html1 = `<li>${username} : ${comment}</li>`
                 let userNameOfToken = $('#userNameOfToken').val()
                 if(userNameOfToken == username) {
                     temp_html1 += `<button onclick="delComments('${cid}')">삭제</button>`
