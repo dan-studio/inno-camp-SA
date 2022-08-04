@@ -45,6 +45,7 @@
                 </div>
                 <div class="modal-footer">
                     <button onclick="savedata()" type="button" class="btn btn-dark">기록하기</button>
+                    <div id="delete"></div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -79,9 +80,9 @@
                             <img src="{{ image }}" class="card-img-top in_card_image" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                   onclick="openmodal({{ num }})">{{ short_title }}</h5>
+                                   onclick="openmodalDel({{ num }})">{{ short_title }}</h5>
                                 <p class="card-text " data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                   onclick="openmodal({{ num }})" id="show">{{comment}}</p>
+                                   onclick="openmodalDel({{ num }})" id="show">{{comment}}</p>
                             </div>
                         </div>
                     </div>
