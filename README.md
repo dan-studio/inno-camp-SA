@@ -1,5 +1,8 @@
+
+<img src="https://user-images.githubusercontent.com/78805018/186553643-1e2c40aa-1835-408e-a4f9-ec7ac8ea870f.png" width="600" height="600">
 # inno-camp-SA
 Innovation Camp Starting Assignment
+
 ## 📢 프로젝트 소개
 오픈소스나 문제 해결에 도움된 블로그 혹은 사이트 모음
 
